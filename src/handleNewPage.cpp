@@ -2,6 +2,20 @@
 
 void handleNewPage(SDL_Renderer *renderer, SDL_Texture *newPageTexture, SDL_Texture *playButtonTexture, SDL_Rect playButtonRect, SDL_Texture *settingButtonTexture, SDL_Rect settingButtonRect, bool &quit, State &currentState)
 {
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        return;
+    }
+
+    Mix_Music *backgroundMusic = Mix_LoadMUS("../res/back_button.mp3");
+    if (backgroundMusic == NULL)
+    {
+        printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
+        return; 
+    }
+
+
     SDL_Event newPageEvent;
     while (SDL_PollEvent(&newPageEvent) != 0)
     {
@@ -17,13 +31,22 @@ void handleNewPage(SDL_Renderer *renderer, SDL_Texture *newPageTexture, SDL_Text
             if (mouseX >= playButtonRect.x && mouseX <= (playButtonRect.x + playButtonRect.w) &&
                 mouseY >= playButtonRect.y && mouseY <= (playButtonRect.y + playButtonRect.h))
             {
+                Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
+                SDL_Delay(100);          
                 currentState = PLAY_WINDOW;
+                Mix_FreeMusic(backgroundMusic);
+                Mix_CloseAudio();
             }
 
             if (mouseX >= settingButtonRect.x && mouseX <= (settingButtonRect.x + settingButtonRect.w) &&
                 mouseY >= settingButtonRect.y && mouseY <= (settingButtonRect.y + settingButtonRect.h))
             {
                 printf("Setting button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+
+                Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
+                SDL_Delay(100);          
+                Mix_FreeMusic(backgroundMusic);
+                Mix_CloseAudio();
             }
         }
     }

@@ -1,5 +1,5 @@
 #include "main.h"
-#include <SDL2/SDL_mixer.h>
+
 
 int main(int argc, char *argv[])
 {
@@ -8,6 +8,8 @@ int main(int argc, char *argv[])
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
     }
+
+    /*
 
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
@@ -23,6 +25,8 @@ int main(int argc, char *argv[])
     }
 
     Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
+
+    */
 
 
     SDL_Window *window = SDL_CreateWindow("Angry Birds", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -150,12 +154,12 @@ int main(int argc, char *argv[])
         }
         else if (currentState == PLAY_WINDOW)
         {
-            handlePlayWindow(renderer, backgroundPlayTexture, quit);
+            handlePlayWindow(renderer, backgroundPlayTexture, quit, currentState);
         }
     }
 
-    Mix_FreeMusic(backgroundMusic);
-    Mix_CloseAudio();
+    // Mix_FreeMusic(backgroundMusic);
+    // Mix_CloseAudio();
 
     SDL_DestroyTexture(startButtonTexture);
     SDL_DestroyTexture(newPageTexture);

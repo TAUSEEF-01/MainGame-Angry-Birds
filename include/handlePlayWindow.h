@@ -3,6 +3,6 @@
 
 #include "header.h"
 
-void handlePlayWindow(SDL_Renderer* renderer, SDL_Texture* backgroundTexture, bool& quit);
+void handlePlayWindow(SDL_Renderer* renderer, SDL_Texture* backgroundTexture, bool& quit, State &currentState);
 
 #endif
