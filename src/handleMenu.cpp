@@ -91,7 +91,7 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
 
     SDL_RenderClear(renderer);
     
-    SDL_Surface *backgroundSurface = IMG_Load("../res/background2.png");
+    SDL_Surface *backgroundSurface = IMG_Load("../res/Firstpage.png");
     SDL_Texture *backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundSurface);
     SDL_FreeSurface(backgroundSurface);
 
