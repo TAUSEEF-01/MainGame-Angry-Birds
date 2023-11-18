@@ -47,7 +47,10 @@ int main(int argc, char *argv[])
         {
             handlePlayWindow(renderer, quit, currentState);
         }
-        
+        else if (currentState == LEVEL2)
+        {
+            level2(renderer, quit, currentState);
+        }
     }
 
 

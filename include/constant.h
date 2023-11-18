@@ -16,7 +16,7 @@ enum State
     NEW_PAGE,
     SETTING,
     PLAY_WINDOW, 
-    LEVEL2,
+    LEVEL2
 };
 
 #endif
