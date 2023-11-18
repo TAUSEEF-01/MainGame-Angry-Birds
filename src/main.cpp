@@ -39,10 +39,15 @@ int main(int argc, char *argv[])
         {
             handleNewPage(renderer, quit, currentState);
         }
+        else if (currentState == SETTING)
+        {
+            settingPage(renderer, quit, currentState);
+        }
         else if (currentState == PLAY_WINDOW)
         {
             handlePlayWindow(renderer, quit, currentState);
         }
+        
     }
 
 

@@ -5,3 +5,4 @@
 #include "handleMenu.h"
 #include "handleNewPage.h"
 #include "handlePlayWindow.h"
+#include "setting.h"

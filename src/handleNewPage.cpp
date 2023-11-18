@@ -3,7 +3,6 @@
 
 void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
-
     SDL_Surface *newPageSurface = IMG_Load("../res/new_page2.png");
     if (newPageSurface == nullptr)
     {
@@ -119,6 +118,7 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
                 SDL_Delay(100);          
+                currentState = SETTING;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }

@@ -14,7 +14,9 @@ enum State
 {
     MENU,
     NEW_PAGE,
-    PLAY_WINDOW
+    SETTING,
+    PLAY_WINDOW, 
+    LEVEL2,
 };
 
 #endif
