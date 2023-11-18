@@ -9,25 +9,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    /*
-
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-    {
-        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-        return 1;
-    }
-
-    Mix_Music *backgroundMusic = Mix_LoadMUS("../res/background_music.mp3");
-    if (backgroundMusic == NULL)
-    {
-        printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
-        return 1;
-    }
-
-    Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
-
-    */
-
 
     SDL_Window *window = SDL_CreateWindow("Angry Birds", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == nullptr)
@@ -158,8 +139,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    // Mix_FreeMusic(backgroundMusic);
-    // Mix_CloseAudio();
+
 
     SDL_DestroyTexture(startButtonTexture);
     SDL_DestroyTexture(newPageTexture);
@@ -174,3 +154,40 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+/*
+
+for adding music-->
+
+
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+        return 1;
+    }
+
+    Mix_Music *backgroundMusic = Mix_LoadMUS("../res/background_music.mp3");
+    if (backgroundMusic == NULL)
+    {
+        printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
+        return 1;
+    }
+
+    Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
+
+
+
+    // Mix_FreeMusic(backgroundMusic);
+    // Mix_CloseAudio();
+
+    
+
+*/
