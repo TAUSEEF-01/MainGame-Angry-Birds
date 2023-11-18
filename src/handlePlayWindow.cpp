@@ -8,8 +8,25 @@ bool collide(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bool &quit, State &currentState)
+void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
+
+    SDL_Surface *backgroundPlaySurface = IMG_Load("../res/background_play.png");
+    if (backgroundPlaySurface == nullptr)
+    {
+        printf("Unable to load background play image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_Texture *backgroundPlayTexture = SDL_CreateTextureFromSurface(renderer, backgroundPlaySurface);
+    SDL_FreeSurface(backgroundPlaySurface);
+
+    if (backgroundPlayTexture == nullptr)
+    {
+        printf("Unable to create texture from background play image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
 
     SDL_Surface *birdSurface = IMG_Load("../res/bird.png");
     if (birdSurface == nullptr)
@@ -218,7 +235,7 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
             jump = 0;
 
         SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+        SDL_RenderCopy(renderer, backgroundPlayTexture, NULL, NULL);
         SDL_RenderCopy(renderer, slingshot_back, NULL, &slingshot_rect);
         SDL_RenderCopy(renderer, birdTexture, NULL, &bird_rect);
 
@@ -243,7 +260,7 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
     // Destroy the bird texture when done
     // SDL_DestroyTexture(back_buttonTexture);
 
-    SDL_DestroyTexture(backgroundTexture);
+    SDL_DestroyTexture(backgroundPlayTexture);
     SDL_DestroyTexture(birdTexture);
 }
 

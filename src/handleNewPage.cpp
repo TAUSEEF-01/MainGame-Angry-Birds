@@ -1,6 +1,6 @@
 #include "main.h"
 
-// void handleNewPage(SDL_Renderer *renderer, SDL_Texture *newPageTexture, SDL_Texture *playButtonTexture, SDL_Rect playButtonRect, SDL_Texture *settingButtonTexture, SDL_Rect settingButtonRect, bool &quit, State &currentState)
+
 void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
 
@@ -112,9 +112,6 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
                 Mix_CloseAudio();
             }
 
-            // if (mouseX >= settingButtonRect.x && mouseX <= (settingButtonRect.x + settingButtonRect.w) &&
-            //     mouseY >= settingButtonRect.y && mouseY <= (settingButtonRect.y + settingButtonRect.h))
-
             if (mouseX >= optionButtonRect.x && mouseX <= (optionButtonRect.x + optionButtonRect.w) &&
                 mouseY >= optionButtonRect.y && mouseY <= (optionButtonRect.y + optionButtonRect.h))
             {
@@ -143,26 +140,17 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
         SDL_SetTextureColorMod(playButtonTexture, 150, 150, 150);
     }
 
-    // if (mouseX >= settingButtonRect.x && mouseX <= (settingButtonRect.x + settingButtonRect.w) &&
-    //     mouseY >= settingButtonRect.y && mouseY <= (settingButtonRect.y + settingButtonRect.h))
-
     if (mouseX >= optionButtonRect.x && mouseX <= (optionButtonRect.x + optionButtonRect.w) &&
         mouseY >= optionButtonRect.y && mouseY <= (optionButtonRect.y + optionButtonRect.h))
     {
-        // SDL_SetTextureColorMod(settingButtonTexture, 255, 255, 255);
-
         SDL_SetTextureColorMod(optionButtonTexture, 255, 255, 255);
     }
     else
     {
-        // SDL_SetTextureColorMod(settingButtonTexture, 150, 150, 150);
-
         SDL_SetTextureColorMod(optionButtonTexture, 150, 150, 150);
     }
 
     SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButtonRect);
-
-    // SDL_RenderCopy(renderer, settingButtonTexture, NULL, &settingButtonRect);
 
     SDL_RenderCopy(renderer, optionButtonTexture, NULL, &optionButtonRect);
 
@@ -172,4 +160,5 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     SDL_DestroyTexture(playButtonTexture);
     SDL_DestroyTexture(optionButtonTexture);
     SDL_DestroyTexture(backgroundPlayTexture);
+
 }
