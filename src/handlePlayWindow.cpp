@@ -131,6 +131,9 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
         return;
     }
 
+    // Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
+    
+    if(musicPlaying)
     Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
 
 

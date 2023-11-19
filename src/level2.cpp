@@ -125,7 +125,11 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         return;
     }
 
+    // Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
+
+    if(musicPlaying)
     Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
+
 
     SDL_Surface *muteButtonSurface = IMG_Load("../res/mute2.png");
     if (muteButtonSurface == nullptr)
@@ -258,6 +262,9 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                     Mix_FreeMusic(backButtonMusic);
                     Mix_CloseAudio();
 
+                    currentButtonTexture2 = unmuteButtonTexture;
+                    musicPlaying = 1;   
+
                     return;
                 }
 
@@ -347,6 +354,8 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         SDL_RenderPresent(renderer);
     }
 
+    
+
     // Destroy the bird texture when done
     // SDL_DestroyTexture(back_buttonTexture);
 
@@ -361,4 +370,5 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
     SDL_DestroyTexture(backgroundPlayTexture);
     SDL_DestroyTexture(birdTexture);
+    
 }
