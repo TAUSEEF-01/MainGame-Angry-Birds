@@ -22,7 +22,7 @@ void settingPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     SDL_SetTextureColorMod(startButtonTexture, 150, 150, 150);
     SDL_Rect startButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 200, 250, 60};
 
-    SDL_Surface *newPageSurface = IMG_Load("../res/setting_background.png");
+    SDL_Surface *newPageSurface = IMG_Load("../res/Firstpage.png");
     if (newPageSurface == nullptr)
     {
         printf("Unable to load new page image! SDL_Error: %s\n", SDL_GetError());
@@ -90,7 +90,7 @@ void settingPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 
     SDL_RenderClear(renderer);
 
-    SDL_Surface *backgroundSurface = IMG_Load("../res/setting_background.png");
+    SDL_Surface *backgroundSurface = IMG_Load("../res/Firstpage.png");
     SDL_Texture *backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundSurface);
     SDL_FreeSurface(backgroundSurface);
 

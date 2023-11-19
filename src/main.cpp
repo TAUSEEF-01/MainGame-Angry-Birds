@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return 1;
@@ -56,7 +56,6 @@ int main(int argc, char *argv[])
             level2(renderer, quit, currentState, musicPlaying);
         }   
     }
-
 
 
     SDL_DestroyRenderer(renderer);
