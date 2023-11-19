@@ -2,47 +2,55 @@
 
 void handleMenu(SDL_Renderer *renderer, SDL_Texture *startButtonTexture, SDL_Rect startButtonRect, bool &quit, State &currentState)
 {
+
+    SDL_Texture *texture = IMG_LoadTexture(renderer, "../res/background2.png");
     SDL_Event menuEvent;
-    while (SDL_PollEvent(&menuEvent) != 0)
+
+    SDL_Event e;
+    bool wait = 1;
+
+    SDL_Rect border = {50, 850, 1500, 20};
+
+    SDL_Rect inside = {51, 851, 0, 18};
+
+    while (!quit)
     {
-        if (menuEvent.type == SDL_QUIT)
+        while (SDL_PollEvent(&e) != 0)
         {
-            quit = true;
-        }
-        else if (menuEvent.type == SDL_MOUSEMOTION)
-        {
-            int mouseX, mouseY;
-            SDL_GetMouseState(&mouseX, &mouseY);
-            if (mouseX >= startButtonRect.x && mouseX <= (startButtonRect.x + startButtonRect.w) &&
-                mouseY >= startButtonRect.y && mouseY <= (startButtonRect.y + startButtonRect.h))
+            if (e.type == SDL_QUIT)
             {
-                SDL_SetTextureColorMod(startButtonTexture, 255, 255, 255);
-            }
-            else
-            {
-                SDL_SetTextureColorMod(startButtonTexture, 150, 150, 150);
+                quit = true;
             }
         }
-        else if (menuEvent.type == SDL_MOUSEBUTTONDOWN)
+
+        SDL_RenderClear(renderer);
+
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
+
+        if (wait)
         {
-            int mouseX, mouseY;
-            SDL_GetMouseState(&mouseX, &mouseY);
-            if (mouseX >= startButtonRect.x && mouseX <= (startButtonRect.x + startButtonRect.w) &&
-                mouseY >= startButtonRect.y && mouseY <= (startButtonRect.y + startButtonRect.h))
-            {
-                currentState = NEW_PAGE;
-            }
+            SDL_RenderPresent(renderer);
+            SDL_Delay(1000);
+            wait = 0;
         }
+
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderDrawRect(renderer, &border);
+
+        // Render red filled quad
+
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+        SDL_RenderFillRect(renderer, &inside);
+
+        if (inside.w < 1498)
+            inside.w++;
+        else
+        {
+            currentState = NEW_PAGE;
+            SDL_Delay(1000);
+            return;
+        }
+
+        SDL_RenderPresent(renderer);
     }
-
-    SDL_RenderClear(renderer);
-    SDL_Surface *backgroundSurface = IMG_Load("../res/background2.png");
-    SDL_Texture *backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundSurface);
-    SDL_FreeSurface(backgroundSurface);
-    SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
-
-    SDL_RenderCopy(renderer, startButtonTexture, NULL, &startButtonRect);
-    SDL_RenderPresent(renderer);
-
-    SDL_DestroyTexture(backgroundTexture);
 }

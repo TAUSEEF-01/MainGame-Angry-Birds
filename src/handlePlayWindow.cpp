@@ -7,18 +7,21 @@ bool collide(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
+void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
+{
+    jump = 0;
+    Green = 1;
+
+    bird_rect.x = Start_x;
+    bird_rect.y = Start_y;
+
+    SDL_Delay(500);
+}
+
 void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bool &quit)
 {
 
-    SDL_Surface *birdSurface = IMG_Load("../res/bird.png");
-    if (birdSurface == nullptr)
-    {
-        printf("Unable to load bird image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Texture *birdTexture = SDL_CreateTextureFromSurface(renderer, birdSurface);
-    SDL_FreeSurface(birdSurface);
+    SDL_Texture *birdTexture = IMG_LoadTexture(renderer, "../res/bird.png");
 
     if (birdTexture == nullptr)
     {
@@ -52,16 +55,17 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
 
     SDL_Event e;
 
-    bool jump = 0, Green = 1;
+    bool jump = 0, Green = 1, clicked = 0;
     int Bird_length = 80;
 
     double speed_x = 0.0, speed_y = 0.0, vf = 0.0;
-    double g = 0.01;
+    double gravity = 0.5;
 
     int X = 0, Y = 0, count = 0, Start_x = 210, Start_y = 495, count_of_collision_with_wall = 0;
+    int prev_x_position = -100;
 
     SDL_Rect bird_rect = {Start_x, Start_y, Bird_length, Bird_length};
-    SDL_Rect slingshot_rect = {210, 515, 75, 3 * 64};
+    SDL_Rect slingshot_rect = {210, 515, 75, 192};
     SDL_Rect green_bird_rect = {1400, 480, 100, 100};
 
     while (!quit)
@@ -80,21 +84,28 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
                     if (e.button.button == SDL_BUTTON_LEFT)
                     {
 
-                        if ((X - Bird_length / 2) >= 0 && (X) <= (SCREEN_WIDTH / 2))
+                        if (clicked || (X >= bird_rect.x && X <= bird_rect.x + Bird_length) && (Y >= bird_rect.y && Y <= bird_rect.y + Bird_length))
                         {
-                            bird_rect.x = X - Bird_length / 2;
+
+                            clicked = 1;
+                            if ((X - Bird_length / 2) >= 0 && (X) <= (SCREEN_WIDTH / 2))
+                            {
+                                bird_rect.x = X - Bird_length / 2;
+                            }
+                            if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 3 * Bird_length))
+                                bird_rect.y = Y - Bird_length / 2;
                         }
-                        if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 3 * Bird_length))
-                            bird_rect.y = Y - Bird_length / 2;
                     }
                 }
             }
             else if (e.type == SDL_MOUSEBUTTONUP)
             {
+                clicked = 0;
+
                 if (e.button.button == SDL_BUTTON_LEFT)
                 {
-                    speed_x = (Start_x - bird_rect.x) / 45.0;
-                    speed_y = -(Start_y - bird_rect.y) / 45.0;
+                    speed_x = (Start_x - bird_rect.x) / 5.0;
+                    speed_y = -(Start_y - bird_rect.y) / 5.0;
                     bird_rect.x = Start_x;
                     bird_rect.y = Start_y;
 
@@ -112,28 +123,48 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
             {
                 jump = 0;
                 Green = 1;
+
                 bird_rect.x = Start_x;
                 bird_rect.y = Start_y;
+
                 SDL_Delay(500);
+                goto here;
                 // speed_x = -speed_x;
             }
 
             bird_rect.y -= speed_y;
-            speed_y -= g;
+            speed_y -= gravity;
 
             if ((bird_rect.y >= (SCREEN_HEIGHT - 3.5 * Bird_length))) // (bird_rect.y <= 0)
             {
                 speed_y = -(speed_y);
+                bird_rect.y = (SCREEN_HEIGHT - 3.5 * Bird_length); // if goes down the limit, it is forced to stay at the limit
                 // printf("%lf\n", speed_y);
-                speed_y *= 0.5;
+
+                speed_y *= 0.75;
+                speed_x *= 0.90;
+
                 // speed_y--;
                 // speed_y -= 2.0 / 30.0;
                 // printf("%lf\n", speed_y);
             }
         }
-        else
-            jump = 0;
 
+        if (((abs(speed_x) < 0.01) || (prev_x_position == bird_rect.x)) && abs(speed_y) < 5 && jump)
+        {
+            jump = 0;
+            speed_y = 0.0;
+
+            bird_rect.x = Start_x;
+            bird_rect.y = Start_y;
+
+            SDL_Delay(500);
+        }
+
+        if (jump)
+            SDL_Delay(10);
+
+    here:
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
         SDL_RenderCopy(renderer, slingshot_back, NULL, &slingshot_rect);
@@ -151,6 +182,10 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
 
         SDL_RenderCopy(renderer, slingshot_front, NULL, &slingshot_rect);
         SDL_RenderPresent(renderer);
+
+        prev_x_position = bird_rect.x;
+
+        // printf("%d %d %lf\n", prev_x_position, bird_rect.x, speed_y); // testing
     }
 
     // Destroy the bird texture when done
