@@ -38,6 +38,8 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
         return;
     }
 
+
+
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
         printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
@@ -50,6 +52,7 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
         printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
         return; 
     }
+
 
 
     SDL_Event menuEvent;
@@ -83,6 +86,8 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
                 SDL_Delay(100);          
                 currentState = NEW_PAGE;
+
+                /**/ //changed this part-->
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }
@@ -103,8 +108,8 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
 
     SDL_DestroyTexture(backgroundTexture);
 
-
     SDL_DestroyTexture(startButtonTexture);
+    
     SDL_DestroyTexture(newPageTexture);
 
 }

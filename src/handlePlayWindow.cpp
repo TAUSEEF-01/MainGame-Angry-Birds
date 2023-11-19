@@ -1,6 +1,29 @@
 #include "main.h"
 #include <SDL2/SDL_mixer.h>
 
+
+// int musicPlaying = 1;              // Flag to indicate if music is playing (1 for playing, 0 for stopped)
+SDL_Texture *currentButtonTexture; // Variable to hold the current button texture
+
+// Function to toggle music on/off
+void toggleMusic2(SDL_Texture *muteTexture, SDL_Texture *unmuteTexture, int &musicPlaying)
+{
+    if (musicPlaying)
+    {
+        Mix_PauseMusic();                     // Pause the music
+        musicPlaying = 0;                     // Update the flag to indicate music is stopped
+        currentButtonTexture = unmuteTexture; // Set the texture to unmute button
+    }
+    else
+    {
+        Mix_ResumeMusic();                  // Resume the music
+        musicPlaying = 1;                   // Update the flag to indicate music is playing
+        currentButtonTexture = muteTexture; // Set the texture to mute button
+    }
+}
+
+
+
 bool collide(SDL_Rect a, SDL_Rect b)
 {
     if (((a.x + a.w) > (b.x + 30)) && ((a.x + 50) < (b.x + b.w)) && ((a.y + a.h) > (b.y + 10)) && (((a.y + 30) < (b.y + b.h))))
@@ -8,7 +31,7 @@ bool collide(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
+void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
 {
     SDL_Surface *backgroundPlaySurface = IMG_Load("../res/background_play.png");
     if (backgroundPlaySurface == nullptr)
@@ -111,6 +134,44 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
     Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
 
 
+    SDL_Surface *muteButtonSurface = IMG_Load("../res/mute2.png");
+    if (muteButtonSurface == nullptr)
+    {
+        printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_Texture *muteButtonTexture = SDL_CreateTextureFromSurface(renderer, muteButtonSurface);
+    SDL_FreeSurface(muteButtonSurface);
+
+    if (muteButtonTexture == nullptr)
+    {
+        printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+
+    SDL_Surface *unmuteButtonSurface = IMG_Load("../res/unmute2.png");
+    if (unmuteButtonSurface == nullptr)
+    {
+        printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_Texture *unmuteButtonTexture = SDL_CreateTextureFromSurface(renderer, unmuteButtonSurface);
+    SDL_FreeSurface(unmuteButtonSurface);
+
+    if (unmuteButtonTexture == nullptr)
+    {
+        printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_SetTextureColorMod(muteButtonTexture, 150, 150, 150);
+    SDL_Rect musicButtonRect = {1450, 30, 80, 80};
+
+
+
     SDL_Event e;
 
     bool jump = 0, Green = 1;
@@ -130,7 +191,9 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
         while (SDL_PollEvent(&e))
         {
             if (e.type == SDL_QUIT)
+            {
                 quit = true;
+            }
             else if (e.type == SDL_MOUSEMOTION && SDL_MOUSEBUTTONDOWN)
             {
                 if (!jump)
@@ -163,6 +226,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
                 }
             }
 
+            /**/
             if (e.type == SDL_MOUSEMOTION)
             {
                 int mouseX, mouseY;
@@ -176,8 +240,20 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
                 {
                     SDL_SetTextureColorMod(back_buttonTexture, 150, 150, 150);
                 }
-            }
 
+                if (mouseX >= musicButtonRect.x && mouseX <= (musicButtonRect.x + musicButtonRect.w) &&
+                    mouseY >= musicButtonRect.y && mouseY <= (musicButtonRect.y + musicButtonRect.h))
+                {
+                    SDL_SetTextureColorMod(currentButtonTexture, 255, 255, 255);
+                }
+                else
+                {
+                    SDL_SetTextureColorMod(currentButtonTexture, 150, 150, 150);
+                }
+
+            }
+            
+            /**/
             if (e.type == SDL_MOUSEBUTTONDOWN)
             {
                 SDL_GetMouseState(&X, &Y);
@@ -199,7 +275,23 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
                     
                     return;
                 }
+
+                if (X >= musicButtonRect.x && X <= (musicButtonRect.x + musicButtonRect.w) &&
+                    Y >= musicButtonRect.y && Y <= (musicButtonRect.y + musicButtonRect.h))
+                {
+                    toggleMusic2(muteButtonTexture, unmuteButtonTexture, musicPlaying);
+                    // SDL_Delay(150);
+                }
             }
+        }
+
+        if (musicPlaying)
+        {
+            currentButtonTexture = muteButtonTexture;
+        }
+        else
+        {
+            currentButtonTexture = unmuteButtonTexture;
         }
 
         if (jump && speed_x)
@@ -231,7 +323,9 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
             }
         }
         else
+        {
             jump = 0;
+        }
 
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, backgroundPlayTexture, NULL, NULL);
@@ -240,16 +334,20 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
 
         SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect); // showing the back button
 
-        // if()
+        if(!musicPlaying)
+        SDL_RenderCopy(renderer, muteButtonTexture, NULL, &musicButtonRect); // showing the music button
+        if(musicPlaying)
+        SDL_RenderCopy(renderer, unmuteButtonTexture, NULL, &musicButtonRect); // showing the music button
+
 
         if (!collide(bird_rect, green_bird_rect) && Green)
+        {
             SDL_RenderCopy(renderer, green_bird, NULL, &green_bird_rect);
+        }
         else
         {
             Green = 0;
 
-            // currentState = LEVEL2; //added extra
-            // return;
             // bird_rect.x = Start_x;
             // bird_rect.y = Start_y;
             // SDL_Delay(500);
@@ -270,6 +368,15 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState)
 
     // Destroy the bird texture when done
     // SDL_DestroyTexture(back_buttonTexture);
+
+    Mix_FreeMusic(backgroundMusic);
+    Mix_CloseAudio();
+
+    SDL_RenderCopy(renderer, currentButtonTexture, NULL, &musicButtonRect);
+    SDL_RenderPresent(renderer);
+
+    SDL_DestroyTexture(muteButtonTexture);
+    SDL_DestroyTexture(unmuteButtonTexture);
 
     SDL_DestroyTexture(backgroundPlayTexture);
     SDL_DestroyTexture(birdTexture);
