@@ -10,22 +10,8 @@ bool collide(SDL_Rect a, SDL_Rect b)
 void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bool &quit)
 {
 
-    SDL_Surface *birdSurface = IMG_Load("../res/bird.png");
-    if (birdSurface == nullptr)
-    {
-        printf("Unable to load bird image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Texture *birdTexture = SDL_CreateTextureFromSurface(renderer, birdSurface);
-    SDL_FreeSurface(birdSurface);
-
-    if (birdTexture == nullptr)
-    {
-        printf("Unable to create texture from bird image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
+    
+ SDL_Texture *birdTexture = surfaceToTexture(renderer,"../res/bird.png");
     SDL_Texture *slingshot_back = IMG_LoadTexture(renderer, "../res/slingshot_back.png");
 
     if (slingshot_back == nullptr)

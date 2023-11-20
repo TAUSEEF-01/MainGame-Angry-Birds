@@ -6,6 +6,8 @@ const int PLAY_BUTTON_POS_X = 620;
 const int PLAY_BUTTON_POS_Y = 500;
 const int OPTION_BUTTON_POS_X = 620;
 const int OPTION_BUTTON_POS_Y = 500;
+const int MUSIC_BUTTON_POS_X = 620;
+const int MUSIC_BUTTON_POS_Y = 300;
 
 /*
 SDL_Renderer* renderer;

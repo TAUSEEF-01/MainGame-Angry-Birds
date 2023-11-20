@@ -1,5 +1,6 @@
 #include "main.h"
 
+Mix_Music *buttonMusic1=NULL;
 void handleNewPage(SDL_Renderer *renderer, SDL_Texture *newPageTexture, SDL_Texture *playButtonTexture, SDL_Rect playButtonRect, SDL_Texture *settingButtonTexture, SDL_Rect settingButtonRect, bool &quit, State &currentState)
 {
     SDL_Event newPageEvent;
@@ -17,13 +18,22 @@ void handleNewPage(SDL_Renderer *renderer, SDL_Texture *newPageTexture, SDL_Text
             if (mouseX >= playButtonRect.x && mouseX <= (playButtonRect.x + playButtonRect.w) &&
                 mouseY >= playButtonRect.y && mouseY <= (playButtonRect.y + playButtonRect.h))
             {
+            	playMusic(buttonMusic1,"../res/button_click.mp3");
+            	SDL_Delay(100);
                 currentState = PLAY_WINDOW;
+                Mix_FreeMusic(buttonMusic1);
+                Mix_CloseAudio();
             }
 
             if (mouseX >= settingButtonRect.x && mouseX <= (settingButtonRect.x + settingButtonRect.w) &&
                 mouseY >= settingButtonRect.y && mouseY <= (settingButtonRect.y + settingButtonRect.h))
             {
-                printf("Setting button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+            	playMusic(buttonMusic1,"../res/button_click.mp3");
+            	SDL_Delay(100);
+                currentState= SETTINGS;
+                Mix_FreeMusic(buttonMusic1);
+                Mix_CloseAudio();
+                 
             }
         }
     }

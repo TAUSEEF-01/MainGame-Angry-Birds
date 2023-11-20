@@ -1,5 +1,6 @@
 #include "main.h"
 
+Mix_Music *buttonMusic = NULL;
 void handleMenu(SDL_Renderer *renderer, SDL_Texture *startButtonTexture, SDL_Rect startButtonRect, bool &quit, State &currentState)
 {
     SDL_Event menuEvent;
@@ -30,7 +31,11 @@ void handleMenu(SDL_Renderer *renderer, SDL_Texture *startButtonTexture, SDL_Rec
             if (mouseX >= startButtonRect.x && mouseX <= (startButtonRect.x + startButtonRect.w) &&
                 mouseY >= startButtonRect.y && mouseY <= (startButtonRect.y + startButtonRect.h))
             {
+            	playMusic(buttonMusic,"../res/button_click.mp3");
+            	SDL_Delay(100);
                 currentState = NEW_PAGE;
+                Mix_FreeMusic(buttonMusic);
+                Mix_CloseAudio();
             }
         }
     }
