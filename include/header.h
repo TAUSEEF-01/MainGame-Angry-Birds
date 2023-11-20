@@ -8,3 +8,4 @@
 #include "setting.h"
 #include "level2.h"
 #include "SurfaceToTexture.h"
+#include "mix_music.h"

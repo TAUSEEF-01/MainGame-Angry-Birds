@@ -46,68 +46,22 @@ void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
 
 void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
 {
-    SDL_Texture *backgroundPlayTexture = IMG_LoadTexture(renderer, "../res/background_play.png");
+    SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/background_play.png");
+    SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/bird.png");
+    SDL_Texture *slingshot_back = surfaceToTexture(renderer, "../res/slingshot_back.png");
+    SDL_Texture *slingshot_front = surfaceToTexture(renderer, "../res/slingshot_front.png");
+    SDL_Texture *green_bird = surfaceToTexture(renderer, "../res/green_bird.png");
+    SDL_Texture *back_buttonTexture = surfaceToTexture(renderer, "../res/back_button.png");
+    SDL_Texture *muteButtonTexture = surfaceToTexture(renderer, "../res/mute2.png");
+    SDL_Texture *unmuteButtonTexture = surfaceToTexture(renderer, "../res/unmute2.png");
 
-    if (backgroundPlayTexture == nullptr)
-    {
-        printf("Unable to create texture from bird image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-
-    SDL_Texture *birdTexture = IMG_LoadTexture(renderer, "../res/bird.png");
-
-    if (birdTexture == nullptr)
-    {
-        printf("Unable to create texture from bird image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-
-    SDL_Texture *slingshot_back = IMG_LoadTexture(renderer, "../res/slingshot_back.png");
-
-    if (slingshot_back == nullptr)
-    {
-        printf("Unable to create sling_shot back image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Texture *slingshot_front = IMG_LoadTexture(renderer, "../res/slingshot_front.png");
-
-    if (slingshot_back == nullptr)
-    {
-        printf("Unable to create sling_shot front image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-
-    SDL_Texture *green_bird = IMG_LoadTexture(renderer, "../res/green_bird.png");
-
-    if (green_bird == nullptr)
-    {
-        printf("Unable to create green bird image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-
-    SDL_Surface *back_button = IMG_Load("../res/back_button.png");
-    if (back_button == nullptr)
-    {
-        printf("Unable to load back button image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Texture *back_buttonTexture = SDL_CreateTextureFromSurface(renderer, back_button);
-    SDL_FreeSurface(back_button);
-
-    if (back_buttonTexture == nullptr)
-    {
-        printf("Unable to create texture from back button image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
 
     SDL_SetTextureColorMod(back_buttonTexture, 150, 150, 150);
     SDL_Rect playButtonRect = {30, 30, 100, 100};
+
+    SDL_SetTextureColorMod(muteButtonTexture, 150, 150, 150);
+    SDL_Rect musicButtonRect = {1450, 30, 80, 80};
+
 
 
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
@@ -116,61 +70,12 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
         return;
     }
 
-    Mix_Music *backButtonMusic = Mix_LoadMUS("../res/back_button.mp3");
-    if (backButtonMusic == NULL)
-    {
-        printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
-        return; 
-    }
+    Mix_Music *backButtonMusic = Music("../res/back_button.mp3");
+    Mix_Music *backgroundMusic = Music("../res/background_music.mp3");
 
-    Mix_Music *backgroundMusic = Mix_LoadMUS("../res/background_music.mp3");
-    if (backgroundMusic == NULL)
-    {
-        printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
-        return;
-    }
 
-    // Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
-    
     if(musicPlaying)
     Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
-
-
-    SDL_Surface *muteButtonSurface = IMG_Load("../res/mute2.png");
-    if (muteButtonSurface == nullptr)
-    {
-        printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Texture *muteButtonTexture = SDL_CreateTextureFromSurface(renderer, muteButtonSurface);
-    SDL_FreeSurface(muteButtonSurface);
-
-    if (muteButtonTexture == nullptr)
-    {
-        printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-
-    SDL_Surface *unmuteButtonSurface = IMG_Load("../res/unmute2.png");
-    if (unmuteButtonSurface == nullptr)
-    {
-        printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Texture *unmuteButtonTexture = SDL_CreateTextureFromSurface(renderer, unmuteButtonSurface);
-    SDL_FreeSurface(unmuteButtonSurface);
-
-    if (unmuteButtonTexture == nullptr)
-    {
-        printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_SetTextureColorMod(muteButtonTexture, 150, 150, 150);
-    SDL_Rect musicButtonRect = {1450, 30, 80, 80};
 
 
 
