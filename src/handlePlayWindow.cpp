@@ -55,17 +55,17 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
 
     SDL_Event e;
 
-    bool jump = 0, Green = 1, clicked = 0;
-    int Bird_length = 80;
+    bool jump = 0, Green = 1, clicked = 0; // clikcked
+    int Bird_length = 50;
 
     double speed_x = 0.0, speed_y = 0.0, vf = 0.0;
     double gravity = 0.5;
 
-    int X = 0, Y = 0, count = 0, Start_x = 210, Start_y = 495, count_of_collision_with_wall = 0;
+    int X = 0, Y = 0, count = 0, Start_x = 210, Start_y = 560, count_of_collision_with_wall = 0;
     int prev_x_position = -100;
 
     SDL_Rect bird_rect = {Start_x, Start_y, Bird_length, Bird_length};
-    SDL_Rect slingshot_rect = {210, 515, 75, 192};
+    SDL_Rect slingshot_rect = {210, 580, 47, 124};
     SDL_Rect green_bird_rect = {1400, 480, 100, 100};
 
     while (!quit)
@@ -84,15 +84,15 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
                     if (e.button.button == SDL_BUTTON_LEFT)
                     {
 
-                        if (clicked || (X >= bird_rect.x && X <= bird_rect.x + Bird_length) && (Y >= bird_rect.y && Y <= bird_rect.y + Bird_length))
+                        if (clicked || (X >= bird_rect.x && X <= bird_rect.x + Bird_length) && (Y >= bird_rect.y && Y <= bird_rect.y + Bird_length)) // is clicked inside bird
                         {
 
-                            clicked = 1;
+                            clicked = 1; // extra
                             if ((X - Bird_length / 2) >= 0 && (X) <= (SCREEN_WIDTH / 2))
                             {
                                 bird_rect.x = X - Bird_length / 2;
                             }
-                            if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 3 * Bird_length))
+                            if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 4.5 * Bird_length))
                                 bird_rect.y = Y - Bird_length / 2;
                         }
                     }
@@ -135,13 +135,15 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
             bird_rect.y -= speed_y;
             speed_y -= gravity;
 
-            if ((bird_rect.y >= (SCREEN_HEIGHT - 3.5 * Bird_length))) // (bird_rect.y <= 0)
+            if ((bird_rect.y >= (SCREEN_HEIGHT - 5 * Bird_length))) // (bird_rect.y <= 0)
             {
                 speed_y = -(speed_y);
-                bird_rect.y = (SCREEN_HEIGHT - 3.5 * Bird_length); // if goes down the limit, it is forced to stay at the limit
+                bird_rect.y = (SCREEN_HEIGHT - 4.8 * Bird_length); // if goes down the limit, it is forced to stay at the limit
                 // printf("%lf\n", speed_y);
 
-                speed_y *= 0.75;
+
+                // reamaining speed after a bounce
+                speed_y *= 0.60;
                 speed_x *= 0.90;
 
                 // speed_y--;
@@ -155,13 +157,14 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
             jump = 0;
             speed_y = 0.0;
 
+            if (bird_rect.x != Start_x || bird_rect.y != Start_y)
+                SDL_Delay(500);
+
             bird_rect.x = Start_x;
             bird_rect.y = Start_y;
-
-            SDL_Delay(500);
         }
 
-        if (jump)
+        if (jump) // frame rate
             SDL_Delay(10);
 
     here:
