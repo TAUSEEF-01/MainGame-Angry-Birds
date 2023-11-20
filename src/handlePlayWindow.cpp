@@ -156,6 +156,7 @@ void handlePlayWindow(SDL_Renderer *renderer, SDL_Texture *backgroundTexture, bo
         {
             jump = 0;
             speed_y = 0.0;
+            Green = 1;
 
             if (bird_rect.x != Start_x || bird_rect.y != Start_y)
                 SDL_Delay(500);
