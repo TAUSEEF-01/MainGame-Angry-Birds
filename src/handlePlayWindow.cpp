@@ -1,7 +1,6 @@
 #include "main.h"
 #include <SDL2/SDL_mixer.h>
 
-
 // int musicPlaying = 1;              // Flag to indicate if music is playing (1 for playing, 0 for stopped)
 SDL_Texture *currentButtonTexture; // Variable to hold the current button texture
 
@@ -22,15 +21,12 @@ void toggleMusic2(SDL_Texture *muteTexture, SDL_Texture *unmuteTexture, int &mus
     }
 }
 
-
-
 bool collide(SDL_Rect a, SDL_Rect b)
 {
     if (((a.x + a.w) > (b.x + 30)) && ((a.x + 50) < (b.x + b.w)) && ((a.y + a.h) > (b.y + 10)) && (((a.y + 30) < (b.y + b.h))))
         return 1;
     return 0;
 }
-
 
 void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
 {
@@ -43,7 +39,6 @@ void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
     SDL_Delay(500);
 }
 
-
 void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/background_play.png");
@@ -55,14 +50,11 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
     SDL_Texture *muteButtonTexture = surfaceToTexture(renderer, "../res/mute2.png");
     SDL_Texture *unmuteButtonTexture = surfaceToTexture(renderer, "../res/unmute2.png");
 
-
     SDL_SetTextureColorMod(back_buttonTexture, 150, 150, 150);
     SDL_Rect playButtonRect = {30, 30, 100, 100};
 
     SDL_SetTextureColorMod(muteButtonTexture, 150, 150, 150);
     SDL_Rect musicButtonRect = {1450, 30, 80, 80};
-
-
 
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
@@ -73,11 +65,8 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
     Mix_Music *backButtonMusic = Music("../res/back_button.mp3");
     Mix_Music *backgroundMusic = Music("../res/background_music.mp3");
 
-
-    if(musicPlaying)
-    Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
-
-
+    if (musicPlaying)
+        Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
 
     SDL_Event e;
 
@@ -93,7 +82,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
     SDL_Rect bird_rect = {Start_x, Start_y, Bird_length, Bird_length};
     SDL_Rect slingshot_rect = {210, 580, 47, 124};
     SDL_Rect green_bird_rect = {1400, 480, 100, 100};
-
 
     while (!quit)
     {
@@ -163,9 +151,8 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
                 {
                     SDL_SetTextureColorMod(currentButtonTexture, 150, 150, 150);
                 }
-
             }
-            
+
             /**/
             if (e.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -176,16 +163,15 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
                 {
                     printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
 
-                    Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely  
+                    Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely
                     Mix_FreeMusic(backgroundMusic);
-                    Mix_CloseAudio();        
-                    SDL_Delay(100);          
+                    Mix_CloseAudio();
+                    SDL_Delay(100);
 
-                    currentState = NEW_PAGE; 
+                    currentState = NEW_PAGE;
                     Mix_FreeMusic(backButtonMusic);
                     Mix_CloseAudio();
 
-                    
                     return;
                 }
 
@@ -196,7 +182,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
                     // SDL_Delay(150);
                 }
             }
-        
         }
 
         if (musicPlaying)
@@ -216,12 +201,25 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
             if (bird_rect.x - 50 >= (SCREEN_WIDTH) || (bird_rect.x + Bird_length + 100 <= 0))
             {
                 jump = 0;
+
+                if (Green == 0) // Level
+                {
+                    currentState = LEVEL2; // added extra
+
+                    printf("unga bunga\n");
+
+                    SDL_DestroyTexture(backgroundPlayTexture);
+                    SDL_DestroyTexture(birdTexture);
+                    return;
+                }
+                
                 Green = 1;
 
                 bird_rect.x = Start_x;
                 bird_rect.y = Start_y;
 
                 SDL_Delay(500);
+
                 goto here;
                 // speed_x = -speed_x;
             }
@@ -234,7 +232,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
                 speed_y = -(speed_y);
                 bird_rect.y = (SCREEN_HEIGHT - 4.8 * Bird_length); // if goes down the limit, it is forced to stay at the limit
                 // printf("%lf\n", speed_y);
-
 
                 // reamaining speed after a bounce
                 speed_y *= 0.60;
@@ -270,10 +267,10 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
         SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect); // showing the back button
 
-        if(!musicPlaying)
-        SDL_RenderCopy(renderer, muteButtonTexture, NULL, &musicButtonRect); // showing the music button
-        if(musicPlaying)
-        SDL_RenderCopy(renderer, unmuteButtonTexture, NULL, &musicButtonRect); // showing the music button
+        if (!musicPlaying)
+            SDL_RenderCopy(renderer, muteButtonTexture, NULL, &musicButtonRect); // showing the music button
+        if (musicPlaying)
+            SDL_RenderCopy(renderer, unmuteButtonTexture, NULL, &musicButtonRect); // showing the music button
 
         if (!collide(bird_rect, green_bird_rect) && Green)
             SDL_RenderCopy(renderer, green_bird, NULL, &green_bird_rect);
@@ -289,18 +286,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
         SDL_RenderPresent(renderer);
 
         prev_x_position = bird_rect.x;
-
-        if (Green == 0)
-        {
-            currentState = LEVEL2; //added extra
-
-            SDL_DestroyTexture(backgroundPlayTexture);
-            SDL_DestroyTexture(birdTexture);
-            return;
-        }
-
     }
-
 
     Mix_FreeMusic(backgroundMusic);
     Mix_CloseAudio();
@@ -315,42 +301,8 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
     SDL_DestroyTexture(birdTexture);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // #include "main.h"
 // #include <SDL2/SDL_mixer.h>
-
 
 // // int musicPlaying = 1;              // Flag to indicate if music is playing (1 for playing, 0 for stopped)
 // SDL_Texture *currentButtonTexture; // Variable to hold the current button texture
@@ -372,15 +324,12 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //     }
 // }
 
-
-
 // bool collide(SDL_Rect a, SDL_Rect b)
 // {
 //     if (((a.x + a.w) > (b.x + 30)) && ((a.x + 50) < (b.x + b.w)) && ((a.y + a.h) > (b.y + 10)) && (((a.y + 30) < (b.y + b.h))))
 //         return 1;
 //     return 0;
 // }
-
 
 // void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
 // {
@@ -392,7 +341,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
 //     SDL_Delay(500);
 // }
-
 
 // void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
 // {
@@ -411,7 +359,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         printf("Unable to create texture from background play image! SDL_Error: %s\n", SDL_GetError());
 //         return;
 //     }
-
 
 //     SDL_Surface *birdSurface = IMG_Load("../res/bird.png");
 //     if (birdSurface == nullptr)
@@ -453,7 +400,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         return;
 //     }
 
-
 //     SDL_Surface *back_button = IMG_Load("../res/back_button.png");
 //     if (back_button == nullptr)
 //     {
@@ -473,7 +419,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //     SDL_SetTextureColorMod(back_buttonTexture, 150, 150, 150);
 //     SDL_Rect playButtonRect = {30, 30, 100, 100};
 
-
 //     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 //     {
 //         printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
@@ -484,7 +429,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //     if (backButtonMusic == NULL)
 //     {
 //         printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
-//         return; 
+//         return;
 //     }
 
 //     Mix_Music *backgroundMusic = Mix_LoadMUS("../res/background_music.mp3");
@@ -495,10 +440,9 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //     }
 
 //     // Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
-    
+
 //     if(musicPlaying)
 //     Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
-
 
 //     SDL_Surface *muteButtonSurface = IMG_Load("../res/mute2.png");
 //     if (muteButtonSurface == nullptr)
@@ -515,7 +459,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
 //         return;
 //     }
-
 
 //     SDL_Surface *unmuteButtonSurface = IMG_Load("../res/unmute2.png");
 //     if (unmuteButtonSurface == nullptr)
@@ -535,8 +478,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
 //     SDL_SetTextureColorMod(muteButtonTexture, 150, 150, 150);
 //     SDL_Rect musicButtonRect = {1450, 30, 80, 80};
-
-
 
 //     SDL_Event e;
 
@@ -635,7 +576,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //                 }
 
 //             }
-            
+
 //             /**/
 //             if (e.type == SDL_MOUSEBUTTONDOWN)
 //             {
@@ -646,16 +587,15 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //                 {
 //                     printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
 
-//                     Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely  
+//                     Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely
 //                     Mix_FreeMusic(backgroundMusic);
-//                     Mix_CloseAudio();        
-//                     SDL_Delay(100);          
+//                     Mix_CloseAudio();
+//                     SDL_Delay(100);
 
-//                     currentState = NEW_PAGE; 
+//                     currentState = NEW_PAGE;
 //                     Mix_FreeMusic(backButtonMusic);
 //                     Mix_CloseAudio();
 
-                    
 //                     return;
 //                 }
 
@@ -666,7 +606,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //                     // SDL_Delay(150);
 //                 }
 //             }
-        
+
 //         }
 
 //         if (musicPlaying)
@@ -704,7 +644,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //                 speed_y = -(speed_y);
 //                 bird_rect.y = (SCREEN_HEIGHT - 4.8 * Bird_length); // if goes down the limit, it is forced to stay at the limit
 //                 // printf("%lf\n", speed_y);
-
 
 //                 // reamaining speed after a bounce
 //                 speed_y *= 0.60;
@@ -777,17 +716,12 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         // printf("%d %d %lf\n", prev_x_position, bird_rect.x, speed_y); // testing
 //     }
 
-
-
-
-
 //         // while (SDL_PollEvent(&e))
 //         // {
 //         //     if (e.type == SDL_QUIT)
 //         //     {
 //         //         quit = true;
 //         //     }
-
 
 //         //     // else if (e.type == SDL_MOUSEMOTION && SDL_MOUSEBUTTONDOWN)
 //         //     // {
@@ -806,7 +740,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         //     //                 bird_rect.y = Y - Bird_length / 2;
 //         //     //         }
 //         //     //     }
-                
+
 //         //     // }
 //         //     // else if (e.type == SDL_MOUSEBUTTONUP)
 //         //     // {
@@ -847,7 +781,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         //         }
 
 //         //     }
-            
+
 //         //     /**/
 //         //     if (e.type == SDL_MOUSEBUTTONDOWN)
 //         //     {
@@ -858,16 +792,15 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         //         {
 //         //             printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
 
-//         //             Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely  
+//         //             Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely
 //         //             Mix_FreeMusic(backgroundMusic);
-//         //             Mix_CloseAudio();        
-//         //             SDL_Delay(100);          
+//         //             Mix_CloseAudio();
+//         //             SDL_Delay(100);
 
-//         //             currentState = NEW_PAGE; 
+//         //             currentState = NEW_PAGE;
 //         //             Mix_FreeMusic(backButtonMusic);
 //         //             Mix_CloseAudio();
 
-                    
 //         //             return;
 //         //         }
 
@@ -934,7 +867,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         // if(musicPlaying)
 //         // SDL_RenderCopy(renderer, unmuteButtonTexture, NULL, &musicButtonRect); // showing the music button
 
-
 //         // if (!collide(bird_rect, green_bird_rect) && Green)
 //         // {
 //         //     SDL_RenderCopy(renderer, green_bird, NULL, &green_bird_rect);
@@ -977,61 +909,28 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //     SDL_DestroyTexture(birdTexture);
 // }
 
+// int mouseX, mouseY;
+// SDL_GetMouseState(&mouseX, &mouseY);
 
+// if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
+//     Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
+// {
+//     SDL_SetTextureColorMod(back_buttonTexture, 255, 255, 255);
+//     // if (e.button.button == SDL_BUTTON_LEFT)
+//     if (e.type == SDL_MOUSEBUTTONDOWN)
+//     {
+//         printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+//         currentState = NEW_PAGE;
+//     }
+//     // if (e.button.button == SDL_BUTTON_LEFT)
 
+// }
 
-
-
-
-
-
-
-
-
-
-
-                // int mouseX, mouseY;
-                // SDL_GetMouseState(&mouseX, &mouseY);
-                
-                // if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
-                //     Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
-                // {
-                //     SDL_SetTextureColorMod(back_buttonTexture, 255, 255, 255);
-                //     // if (e.button.button == SDL_BUTTON_LEFT)
-                //     if (e.type == SDL_MOUSEBUTTONDOWN)
-                //     {
-                //         printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
-                //         currentState = NEW_PAGE;
-                //     }
-                //     // if (e.button.button == SDL_BUTTON_LEFT)
-
-                // }
-
-                // if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
-                //     Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
-                // {
-                //     printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
-                // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
+//     Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
+// {
+//     printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+// }
 
 // #include "main.h"
 

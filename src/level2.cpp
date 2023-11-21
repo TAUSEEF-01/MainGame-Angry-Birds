@@ -1,7 +1,6 @@
 #include "main.h"
 #include <SDL2/SDL_mixer.h>
 
-
 SDL_Texture *currentButtonTexture2; // Variable to hold the current button texture
 
 // Function to toggle music on/off
@@ -28,7 +27,6 @@ bool collide2(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-
 void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/level2_background.png");
@@ -40,14 +38,11 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     SDL_Texture *muteButtonTexture = surfaceToTexture(renderer, "../res/mute2.png");
     SDL_Texture *unmuteButtonTexture = surfaceToTexture(renderer, "../res/unmute2.png");
 
-
     SDL_SetTextureColorMod(back_buttonTexture, 150, 150, 150);
     SDL_Rect playButtonRect = {30, 30, 100, 100};
 
     SDL_SetTextureColorMod(muteButtonTexture, 150, 150, 150);
     SDL_Rect musicButtonRect = {1450, 30, 80, 80};
-
-
 
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
     {
@@ -58,12 +53,8 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     Mix_Music *backButtonMusic = Music("../res/back_button.mp3");
     Mix_Music *backgroundMusic = Music("../res/background_music.mp3");
 
-
-    if(musicPlaying)
-    Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
-
-
-    
+    if (musicPlaying)
+        Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
 
     SDL_Event e;
 
@@ -73,13 +64,12 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     double speed_x = 0.0, speed_y = 0.0, vf = 0.0;
     double gravity = 0.5;
 
-    int X = 0, Y = 0, count = 0, Start_x = 210, Start_y = 560, count_of_collision_with_wall = 0;
+    int X = 0, Y = 0, count = 0, Start_x = 210, Start_y = 625, count_of_collision_with_wall = 0;
     int prev_x_position = -100;
 
     SDL_Rect bird_rect = {Start_x, Start_y, Bird_length, Bird_length};
-    SDL_Rect slingshot_rect = {210, 580, 47, 124};
-    SDL_Rect green_bird_rect = {1400, 480, 100, 100};
-
+    SDL_Rect slingshot_rect = {210, 645, 47, 124};
+    SDL_Rect green_bird_rect = {1400, 545, 100, 100};
 
     while (!quit)
     {
@@ -104,7 +94,7 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                             {
                                 bird_rect.x = X - Bird_length / 2;
                             }
-                            if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 4.5 * Bird_length))
+                            if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 4.5 * Bird_length + 70))
                                 bird_rect.y = Y - Bird_length / 2;
                         }
                     }
@@ -149,9 +139,8 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                 {
                     SDL_SetTextureColorMod(currentButtonTexture2, 150, 150, 150);
                 }
-
             }
-            
+
             /**/
             if (e.type == SDL_MOUSEBUTTONDOWN)
             {
@@ -172,9 +161,8 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                     Mix_CloseAudio();
 
                     currentButtonTexture2 = unmuteButtonTexture;
-                    musicPlaying = 1;   
+                    musicPlaying = 1;
 
-                    
                     return;
                 }
 
@@ -185,7 +173,6 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                     // SDL_Delay(150);
                 }
             }
-        
         }
 
         if (musicPlaying)
@@ -218,12 +205,11 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
             bird_rect.y -= speed_y;
             speed_y -= gravity;
 
-            if ((bird_rect.y >= (SCREEN_HEIGHT - 5 * Bird_length))) // (bird_rect.y <= 0)
+            if ((bird_rect.y >= (SCREEN_HEIGHT - 5 * Bird_length + 70))) // (bird_rect.y <= 0)
             {
                 speed_y = -(speed_y);
-                bird_rect.y = (SCREEN_HEIGHT - 4.8 * Bird_length); // if goes down the limit, it is forced to stay at the limit
+                bird_rect.y = (SCREEN_HEIGHT - 4.8 * Bird_length + 70); // if goes down the limit, it is forced to stay at the limit
                 // printf("%lf\n", speed_y);
-
 
                 // reamaining speed after a bounce
                 speed_y *= 0.60;
@@ -268,7 +254,6 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
             SDL_RenderCopy(renderer, unmuteButtonTexture, NULL, &musicButtonRect); // showing the music button
         }
 
-
         if (!collide2(bird_rect, green_bird_rect) && Green)
             SDL_RenderCopy(renderer, green_bird, NULL, &green_bird_rect);
         else
@@ -292,10 +277,7 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         //     SDL_DestroyTexture(birdTexture);
         //     return;
         // }
-
     }
-
-    
 
     Mix_FreeMusic(backgroundMusic);
     Mix_CloseAudio();
@@ -308,369 +290,310 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
     SDL_DestroyTexture(backgroundPlayTexture);
     SDL_DestroyTexture(birdTexture);
-    
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Mix_Music *backButtonMusic = Mix_LoadMUS("../res/back_button.mp3");
-    // if (backButtonMusic == NULL)
-    // {
-    //     printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
-    //     return;
-    // }
-
-    // Mix_Music *backgroundMusic = Mix_LoadMUS("../res/background_music.mp3");
-    // if (backgroundMusic == NULL)
-    // {
-    //     printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
-    //     return;
-    // }
-
-
-
-
-
-
-    // SDL_Surface *muteButtonSurface = IMG_Load("../res/mute2.png");
-    // if (muteButtonSurface == nullptr)
-    // {
-    //     printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *muteButtonTexture = SDL_CreateTextureFromSurface(renderer, muteButtonSurface);
-    // SDL_FreeSurface(muteButtonSurface);
-
-    // if (muteButtonTexture == nullptr)
-    // {
-    //     printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Surface *unmuteButtonSurface = IMG_Load("../res/unmute2.png");
-    // if (unmuteButtonSurface == nullptr)
-    // {
-    //     printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *unmuteButtonTexture = SDL_CreateTextureFromSurface(renderer, unmuteButtonSurface);
-    // SDL_FreeSurface(unmuteButtonSurface);
-
-    // if (unmuteButtonTexture == nullptr)
-    // {
-    //     printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    
-
-
-    
-
-
-
-
-
-
-
-
-    // SDL_Surface *backgroundPlaySurface = IMG_Load("../res/level2_background.png");
-    // if (backgroundPlaySurface == nullptr)
-    // {
-    //     printf("Unable to load background play image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *backgroundPlayTexture = SDL_CreateTextureFromSurface(renderer, backgroundPlaySurface);
-    // SDL_FreeSurface(backgroundPlaySurface);
-
-    // if (backgroundPlayTexture == nullptr)
-    // {
-    //     printf("Unable to create texture from background play image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Surface *birdSurface = IMG_Load("../res/bird.png");
-    // if (birdSurface == nullptr)
-    // {
-    //     printf("Unable to load bird image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *birdTexture = SDL_CreateTextureFromSurface(renderer, birdSurface);
-    // SDL_FreeSurface(birdSurface);
-
-    // if (birdTexture == nullptr)
-    // {
-    //     printf("Unable to create texture from bird image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *slingshot_back = IMG_LoadTexture(renderer, "../res/slingshot_back.png");
-
-    // if (slingshot_back == nullptr)
-    // {
-    //     printf("Unable to create sling_shot back image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *slingshot_front = IMG_LoadTexture(renderer, "../res/slingshot_front.png");
-
-    // if (slingshot_back == nullptr)
-    // {
-    //     printf("Unable to create sling_shot front image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *green_bird = IMG_LoadTexture(renderer, "../res/green_bird.png");
-
-    // if (green_bird == nullptr)
-    // {
-    //     printf("Unable to create green bird image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Surface *back_button = IMG_Load("../res/back_button.png");
-    // if (back_button == nullptr)
-    // {
-    //     printf("Unable to load back button image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-    // SDL_Texture *back_buttonTexture = SDL_CreateTextureFromSurface(renderer, back_button);
-    // SDL_FreeSurface(back_button);
-
-    // if (back_buttonTexture == nullptr)
-    // {
-    //     printf("Unable to create texture from back button image! SDL_Error: %s\n", SDL_GetError());
-    //     return;
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Mix_Music *backButtonMusic = Mix_LoadMUS("../res/back_button.mp3");
+// if (backButtonMusic == NULL)
+// {
+//     printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
+//     return;
+// }
+
+// Mix_Music *backgroundMusic = Mix_LoadMUS("../res/background_music.mp3");
+// if (backgroundMusic == NULL)
+// {
+//     printf("Failed to load background music! SDL_mixer Error: %s\n", Mix_GetError());
+//     return;
+// }
+
+// SDL_Surface *muteButtonSurface = IMG_Load("../res/mute2.png");
+// if (muteButtonSurface == nullptr)
+// {
+//     printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *muteButtonTexture = SDL_CreateTextureFromSurface(renderer, muteButtonSurface);
+// SDL_FreeSurface(muteButtonSurface);
+
+// if (muteButtonTexture == nullptr)
+// {
+//     printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Surface *unmuteButtonSurface = IMG_Load("../res/unmute2.png");
+// if (unmuteButtonSurface == nullptr)
+// {
+//     printf("Unable to load image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *unmuteButtonTexture = SDL_CreateTextureFromSurface(renderer, unmuteButtonSurface);
+// SDL_FreeSurface(unmuteButtonSurface);
+
+// if (unmuteButtonTexture == nullptr)
+// {
+//     printf("Unable to create texture from image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Surface *backgroundPlaySurface = IMG_Load("../res/level2_background.png");
+// if (backgroundPlaySurface == nullptr)
+// {
+//     printf("Unable to load background play image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *backgroundPlayTexture = SDL_CreateTextureFromSurface(renderer, backgroundPlaySurface);
+// SDL_FreeSurface(backgroundPlaySurface);
+
+// if (backgroundPlayTexture == nullptr)
+// {
+//     printf("Unable to create texture from background play image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Surface *birdSurface = IMG_Load("../res/bird.png");
+// if (birdSurface == nullptr)
+// {
+//     printf("Unable to load bird image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *birdTexture = SDL_CreateTextureFromSurface(renderer, birdSurface);
+// SDL_FreeSurface(birdSurface);
+
+// if (birdTexture == nullptr)
+// {
+//     printf("Unable to create texture from bird image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *slingshot_back = IMG_LoadTexture(renderer, "../res/slingshot_back.png");
+
+// if (slingshot_back == nullptr)
+// {
+//     printf("Unable to create sling_shot back image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *slingshot_front = IMG_LoadTexture(renderer, "../res/slingshot_front.png");
+
+// if (slingshot_back == nullptr)
+// {
+//     printf("Unable to create sling_shot front image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *green_bird = IMG_LoadTexture(renderer, "../res/green_bird.png");
+
+// if (green_bird == nullptr)
+// {
+//     printf("Unable to create green bird image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Surface *back_button = IMG_Load("../res/back_button.png");
+// if (back_button == nullptr)
+// {
+//     printf("Unable to load back button image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
+
+// SDL_Texture *back_buttonTexture = SDL_CreateTextureFromSurface(renderer, back_button);
+// SDL_FreeSurface(back_button);
+
+// if (back_buttonTexture == nullptr)
+// {
+//     printf("Unable to create texture from back button image! SDL_Error: %s\n", SDL_GetError());
+//     return;
+// }
 
 // bool jump = 0, Green = 1;
-    // int Bird_length = 80;
+// int Bird_length = 80;
 
-    // double speed_x = 0.0, speed_y = 0.0, vf = 0.0;
-    // double g = 0.01;
+// double speed_x = 0.0, speed_y = 0.0, vf = 0.0;
+// double g = 0.01;
 
-    // int X = 0, Y = 0, count = 0, Start_x = 210, Start_y = 560, count_of_collision_with_wall = 0;
+// int X = 0, Y = 0, count = 0, Start_x = 210, Start_y = 560, count_of_collision_with_wall = 0;
 
-    // SDL_Rect bird_rect = {Start_x, Start_y, Bird_length, Bird_length};
-    // SDL_Rect slingshot_rect = {210, 580, 75, 3 * 64};
-    // SDL_Rect green_bird_rect = {1400, 480, 100, 100};
+// SDL_Rect bird_rect = {Start_x, Start_y, Bird_length, Bird_length};
+// SDL_Rect slingshot_rect = {210, 580, 75, 3 * 64};
+// SDL_Rect green_bird_rect = {1400, 480, 100, 100};
 
-    // while (!quit)
-    // {
-    //     while (SDL_PollEvent(&e))
-    //     {
-    //         if (e.type == SDL_QUIT)
-    //             quit = true;
-    //         else if (e.type == SDL_MOUSEMOTION && SDL_MOUSEBUTTONDOWN)
-    //         {
-    //             if (!jump)
-    //             {
-    //                 SDL_GetMouseState(&X, &Y);
+// while (!quit)
+// {
+//     while (SDL_PollEvent(&e))
+//     {
+//         if (e.type == SDL_QUIT)
+//             quit = true;
+//         else if (e.type == SDL_MOUSEMOTION && SDL_MOUSEBUTTONDOWN)
+//         {
+//             if (!jump)
+//             {
+//                 SDL_GetMouseState(&X, &Y);
 
-    //                 if (e.button.button == SDL_BUTTON_LEFT)
-    //                 {
+//                 if (e.button.button == SDL_BUTTON_LEFT)
+//                 {
 
-    //                     if ((X - Bird_length / 2) >= 0 && (X) <= (SCREEN_WIDTH / 2))
-    //                     {
-    //                         bird_rect.x = X - Bird_length / 2;
-    //                     }
-    //                     if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 3 * Bird_length))
-    //                         bird_rect.y = Y - Bird_length / 2;
-    //                 }
-    //             }
-    //         }
-    //         else if (e.type == SDL_MOUSEBUTTONUP)
-    //         {
-    //             if (e.button.button == SDL_BUTTON_LEFT)
-    //             {
-    //                 speed_x = (Start_x - bird_rect.x) / 45.0;
-    //                 speed_y = -(Start_y - bird_rect.y) / 45.0;
-    //                 bird_rect.x = Start_x;
-    //                 bird_rect.y = Start_y;
+//                     if ((X - Bird_length / 2) >= 0 && (X) <= (SCREEN_WIDTH / 2))
+//                     {
+//                         bird_rect.x = X - Bird_length / 2;
+//                     }
+//                     if ((Y - Bird_length) >= 0 && (Y) <= (SCREEN_HEIGHT - 3 * Bird_length))
+//                         bird_rect.y = Y - Bird_length / 2;
+//                 }
+//             }
+//         }
+//         else if (e.type == SDL_MOUSEBUTTONUP)
+//         {
+//             if (e.button.button == SDL_BUTTON_LEFT)
+//             {
+//                 speed_x = (Start_x - bird_rect.x) / 45.0;
+//                 speed_y = -(Start_y - bird_rect.y) / 45.0;
+//                 bird_rect.x = Start_x;
+//                 bird_rect.y = Start_y;
 
-    //                 jump = 1;
-    //             }
-    //         }
+//                 jump = 1;
+//             }
+//         }
 
-    //         /**/
-    //         if (e.type == SDL_MOUSEMOTION)
-    //         {
-    //             int mouseX, mouseY;
-    //             SDL_GetMouseState(&mouseX, &mouseY);
-    //             if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
-    //                 Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
-    //             {
-    //                 SDL_SetTextureColorMod(back_buttonTexture, 255, 255, 255);
-    //             }
-    //             else
-    //             {
-    //                 SDL_SetTextureColorMod(back_buttonTexture, 150, 150, 150);
-    //             }
+//         /**/
+//         if (e.type == SDL_MOUSEMOTION)
+//         {
+//             int mouseX, mouseY;
+//             SDL_GetMouseState(&mouseX, &mouseY);
+//             if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
+//                 Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
+//             {
+//                 SDL_SetTextureColorMod(back_buttonTexture, 255, 255, 255);
+//             }
+//             else
+//             {
+//                 SDL_SetTextureColorMod(back_buttonTexture, 150, 150, 150);
+//             }
 
-    //             if (mouseX >= musicButtonRect.x && mouseX <= (musicButtonRect.x + musicButtonRect.w) &&
-    //                 mouseY >= musicButtonRect.y && mouseY <= (musicButtonRect.y + musicButtonRect.h))
-    //             {
-    //                 SDL_SetTextureColorMod(currentButtonTexture2, 255, 255, 255);
-    //             }
-    //             else
-    //             {
-    //                 SDL_SetTextureColorMod(currentButtonTexture2, 150, 150, 150);
-    //             }
-    //         }
+//             if (mouseX >= musicButtonRect.x && mouseX <= (musicButtonRect.x + musicButtonRect.w) &&
+//                 mouseY >= musicButtonRect.y && mouseY <= (musicButtonRect.y + musicButtonRect.h))
+//             {
+//                 SDL_SetTextureColorMod(currentButtonTexture2, 255, 255, 255);
+//             }
+//             else
+//             {
+//                 SDL_SetTextureColorMod(currentButtonTexture2, 150, 150, 150);
+//             }
+//         }
 
-    //         /**/
-    //         if (e.type == SDL_MOUSEBUTTONDOWN)
-    //         {
-    //             SDL_GetMouseState(&X, &Y);
+//         /**/
+//         if (e.type == SDL_MOUSEBUTTONDOWN)
+//         {
+//             SDL_GetMouseState(&X, &Y);
 
-    //             if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
-    //                 Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
-    //             {
-    //                 printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+//             if (X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) &&
+//                 Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h))
+//             {
+//                 printf("Back button clicked!\n"); // make sure kortesi j setting button kaj kore kina
 
-                    // Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely
-                    // Mix_FreeMusic(backgroundMusic);
-                    // Mix_CloseAudio();
-                    // SDL_Delay(100);
+// Mix_PlayMusic(backButtonMusic, -1); // Start playing music indefinitely
+// Mix_FreeMusic(backgroundMusic);
+// Mix_CloseAudio();
+// SDL_Delay(100);
 
-                    // currentState = NEW_PAGE;
-                    // Mix_FreeMusic(backButtonMusic);
-                    // Mix_CloseAudio();
+// currentState = NEW_PAGE;
+// Mix_FreeMusic(backButtonMusic);
+// Mix_CloseAudio();
 
-                    // currentButtonTexture2 = unmuteButtonTexture;
-                    // musicPlaying = 1;   
+// currentButtonTexture2 = unmuteButtonTexture;
+// musicPlaying = 1;
 
-    //                 return;
-    //             }
+//                 return;
+//             }
 
-    //             if (X >= musicButtonRect.x && X <= (musicButtonRect.x + musicButtonRect.w) &&
-    //                 Y >= musicButtonRect.y && Y <= (musicButtonRect.y + musicButtonRect.h))
-    //             {
-    //                 toggleMusic(muteButtonTexture, unmuteButtonTexture, musicPlaying);
-    //                 // SDL_Delay(150);
-    //             }
-    //         }
-    //     }
+//             if (X >= musicButtonRect.x && X <= (musicButtonRect.x + musicButtonRect.w) &&
+//                 Y >= musicButtonRect.y && Y <= (musicButtonRect.y + musicButtonRect.h))
+//             {
+//                 toggleMusic(muteButtonTexture, unmuteButtonTexture, musicPlaying);
+//                 // SDL_Delay(150);
+//             }
+//         }
+//     }
 
-    //     if (musicPlaying)
-    //     {
-    //         currentButtonTexture2 = muteButtonTexture;
-    //     }
-    //     else
-    //     {
-    //         currentButtonTexture2 = unmuteButtonTexture;
-    //     }
+//     if (musicPlaying)
+//     {
+//         currentButtonTexture2 = muteButtonTexture;
+//     }
+//     else
+//     {
+//         currentButtonTexture2 = unmuteButtonTexture;
+//     }
 
-    //     if (jump && speed_x)
-    //     {
-    //         // bird_rect.x += (((int)speed_x) ? ((int)speed_x) : 1);
-    //         bird_rect.x += speed_x;
+//     if (jump && speed_x)
+//     {
+//         // bird_rect.x += (((int)speed_x) ? ((int)speed_x) : 1);
+//         bird_rect.x += speed_x;
 
-    //         if (bird_rect.x - 50 >= (SCREEN_WIDTH) || (bird_rect.x + Bird_length + 100 <= 0))
-    //         {
-    //             jump = 0;
-    //             Green = 1;
-    //             bird_rect.x = Start_x;
-    //             bird_rect.y = Start_y;
-    //             SDL_Delay(500);
-    //             // speed_x = -speed_x;
-    //         }
+//         if (bird_rect.x - 50 >= (SCREEN_WIDTH) || (bird_rect.x + Bird_length + 100 <= 0))
+//         {
+//             jump = 0;
+//             Green = 1;
+//             bird_rect.x = Start_x;
+//             bird_rect.y = Start_y;
+//             SDL_Delay(500);
+//             // speed_x = -speed_x;
+//         }
 
-    //         bird_rect.y -= speed_y;
-    //         speed_y -= g;
+//         bird_rect.y -= speed_y;
+//         speed_y -= g;
 
-    //         if ((bird_rect.y >= (SCREEN_HEIGHT - 3.5 * Bird_length))) // (bird_rect.y <= 0)
-    //         {
-    //             speed_y = -(speed_y);
-    //             // printf("%lf\n", speed_y);
-    //             speed_y *= 0.5;
-    //             // speed_y--;
-    //             // speed_y -= 2.0 / 30.0;
-    //             // printf("%lf\n", speed_y);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         jump = 0;
-    //     }
+//         if ((bird_rect.y >= (SCREEN_HEIGHT - 3.5 * Bird_length))) // (bird_rect.y <= 0)
+//         {
+//             speed_y = -(speed_y);
+//             // printf("%lf\n", speed_y);
+//             speed_y *= 0.5;
+//             // speed_y--;
+//             // speed_y -= 2.0 / 30.0;
+//             // printf("%lf\n", speed_y);
+//         }
+//     }
+//     else
+//     {
+//         jump = 0;
+//     }
 
-    //     SDL_RenderClear(renderer);
-    //     SDL_RenderCopy(renderer, backgroundPlayTexture, NULL, NULL);
-    //     SDL_RenderCopy(renderer, slingshot_back, NULL, &slingshot_rect);
-    //     SDL_RenderCopy(renderer, birdTexture, NULL, &bird_rect);
+//     SDL_RenderClear(renderer);
+//     SDL_RenderCopy(renderer, backgroundPlayTexture, NULL, NULL);
+//     SDL_RenderCopy(renderer, slingshot_back, NULL, &slingshot_rect);
+//     SDL_RenderCopy(renderer, birdTexture, NULL, &bird_rect);
 
-    //     SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect); // showing the back button
+//     SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect); // showing the back button
 
-        // if (!musicPlaying)
-        // {
-        //     SDL_RenderCopy(renderer, muteButtonTexture, NULL, &musicButtonRect); // showing the music button
-        // }
-        // if (musicPlaying)
-        // {
-        //     SDL_RenderCopy(renderer, unmuteButtonTexture, NULL, &musicButtonRect); // showing the music button
-        // }
+// if (!musicPlaying)
+// {
+//     SDL_RenderCopy(renderer, muteButtonTexture, NULL, &musicButtonRect); // showing the music button
+// }
+// if (musicPlaying)
+// {
+//     SDL_RenderCopy(renderer, unmuteButtonTexture, NULL, &musicButtonRect); // showing the music button
+// }
 
+//     /**/
+//     if (!collide2(bird_rect, green_bird_rect) && Green)
+//     {
+//         SDL_RenderCopy(renderer, green_bird, NULL, &green_bird_rect);
+//     }
+//     else
+//     {
+//         Green = 0;
 
-    //     /**/
-    //     if (!collide2(bird_rect, green_bird_rect) && Green)
-    //     {
-    //         SDL_RenderCopy(renderer, green_bird, NULL, &green_bird_rect);
-    //     }
-    //     else
-    //     {
-    //         Green = 0;
+//         // bird_rect.x = Start_x;
+//         // bird_rect.y = Start_y;
+//         // SDL_Delay(500);
+//     }
 
-    //         // bird_rect.x = Start_x;
-    //         // bird_rect.y = Start_y;
-    //         // SDL_Delay(500);
-    //     }
+// SDL_RenderCopy(renderer, slingshot_front, NULL, &slingshot_rect);
+// SDL_RenderPresent(renderer);
+// }
 
-        // SDL_RenderCopy(renderer, slingshot_front, NULL, &slingshot_rect);
-        // SDL_RenderPresent(renderer);
-    // }
-
-    
-
-    // Destroy the bird texture when done
-    // SDL_DestroyTexture(back_buttonTexture);
+// Destroy the bird texture when done
+// SDL_DestroyTexture(back_buttonTexture);
