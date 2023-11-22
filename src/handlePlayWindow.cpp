@@ -206,7 +206,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
                 {
                     currentState = LEVEL2; // added extra
 
-                    printf("unga bunga\n");
+                    printf("Bird got hit.\n");
 
                     SDL_DestroyTexture(backgroundPlayTexture);
                     SDL_DestroyTexture(birdTexture);
