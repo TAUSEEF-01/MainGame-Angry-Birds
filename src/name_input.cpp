@@ -42,7 +42,7 @@ void handleNameInput(SDL_Renderer *renderer, TTF_Font *font, bool &quit, State &
 
         // Render the background
         SDL_RenderClear(renderer);
-        SDL_Surface *backgroundSurface = IMG_Load("../res/name_input_page.png");
+        SDL_Surface *backgroundSurface = IMG_Load("../res/name_input_page3.png");
         SDL_Texture *backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundSurface);
         SDL_FreeSurface(backgroundSurface);
         SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
@@ -62,5 +62,6 @@ void handleNameInput(SDL_Renderer *renderer, TTF_Font *font, bool &quit, State &
     }
 
     SDL_StopTextInput(); // Disable text input
+    
     currentState = LEVEL1_LOADING_PAGE;
 }

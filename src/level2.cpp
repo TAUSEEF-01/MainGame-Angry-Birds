@@ -29,7 +29,7 @@ bool collide2(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
+void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/level2_background.png");
     SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/yellow_bird2.png");
@@ -57,6 +57,29 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
     if (musicPlaying)
         Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
+
+
+    /**/
+    // Render the player's name on top of the window
+    TTF_Font* nameFont = TTF_OpenFont("arial.ttf", 28);  // Use a font size that fits your needs
+    if (nameFont == nullptr) {
+        printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
+        return;
+    }
+
+    SDL_Color nameColor = {255, 255, 255};
+    SDL_Surface* nameSurface = TTF_RenderText_Solid(nameFont, playerName.c_str(), nameColor);
+    SDL_Texture* nameTexture = SDL_CreateTextureFromSurface(renderer, nameSurface);
+    SDL_FreeSurface(nameSurface);
+
+    // Position the player's name at the top center of the window
+    int namePosX = (SCREEN_WIDTH - nameSurface->w) / 2;
+    int namePosY = 20;
+
+    SDL_Rect nameRect = {namePosX, namePosY, nameSurface->w, nameSurface->h};
+    /**/
+
+
 
     SDL_Event e;
 
@@ -244,6 +267,8 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         SDL_RenderCopy(renderer, backgroundPlayTexture, NULL, NULL);
         SDL_RenderCopy(renderer, slingshot_back, NULL, &slingshot_rect);
         SDL_RenderCopy(renderer, birdTexture, NULL, &bird_rect);
+        SDL_RenderCopy(renderer, nameTexture, NULL, &nameRect);
+
 
         SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect); // showing the back button
 
@@ -292,6 +317,11 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
     SDL_DestroyTexture(backgroundPlayTexture);
     SDL_DestroyTexture(birdTexture);
+
+
+    /**/
+    SDL_DestroyTexture(nameTexture);
+    TTF_CloseFont(nameFont);
 }
 
 // Mix_Music *backButtonMusic = Mix_LoadMUS("../res/back_button.mp3");

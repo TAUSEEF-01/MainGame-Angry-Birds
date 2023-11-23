@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
         }
         else if (currentState == LEVEL2)
         {
-            level2(renderer, quit, currentState, musicPlaying);
+            level2(renderer, quit, currentState, musicPlaying, playerName);
         }
         else if (currentState == LEVEL1_LOADING_PAGE)
         {

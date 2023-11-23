@@ -93,7 +93,6 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
     int namePosY = 20;
 
     SDL_Rect nameRect = {namePosX, namePosY, nameSurface->w, nameSurface->h};
-    // SDL_RenderCopy(renderer, nameTexture, NULL, &nameRect);
     /**/
 
 
