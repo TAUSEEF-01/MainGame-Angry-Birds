@@ -30,7 +30,7 @@ bool collide2(SDL_Rect a, SDL_Rect b)
 void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/level2_background.png");
-    SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/bird.png");
+    SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/yellow_bird2.png");
     SDL_Texture *slingshot_back = surfaceToTexture(renderer, "../res/slingshot_back.png");
     SDL_Texture *slingshot_front = surfaceToTexture(renderer, "../res/slingshot_front.png");
     SDL_Texture *green_bird = surfaceToTexture(renderer, "../res/green_bird.png");
