@@ -1,10 +1,8 @@
 #include "main.h"
 
-
 void level2_loading_page(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
-    SDL_Texture* backgroundTexture = surfaceToTexture(renderer, "../res/level2_loading_page3.png");
-
+    SDL_Texture *backgroundTexture = surfaceToTexture(renderer, "../res/level2_loading_page3.png");
 
     SDL_RenderClear(renderer);
 
@@ -16,5 +14,4 @@ void level2_loading_page(SDL_Renderer *renderer, bool &quit, State &currentState
     currentState = LEVEL2;
 
     SDL_DestroyTexture(backgroundTexture);
-
 }

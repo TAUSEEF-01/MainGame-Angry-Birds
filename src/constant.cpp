@@ -8,6 +8,10 @@ const int OPTION_BUTTON_POS_X = 620;
 const int OPTION_BUTTON_POS_Y = 500;
 const int MUSIC_BUTTON_POS_X = 620;
 const int MUSIC_BUTTON_POS_Y = 300;
+const int INPUT_BOX_WIDTH = 300;
+const int INPUT_BOX_HEIGHT = 40;
+const int INPUT_BOX_POS_X = (SCREEN_WIDTH - INPUT_BOX_WIDTH) / 2;
+const int INPUT_BOX_POS_Y = 400;
 
 /*
 SDL_Renderer* renderer;

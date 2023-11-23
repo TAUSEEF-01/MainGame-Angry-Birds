@@ -1,12 +1,6 @@
 #include "main.h"
 
 
-// const int INPUT_BOX_WIDTH = 300;
-// const int INPUT_BOX_HEIGHT = 40;
-// const int INPUT_BOX_POS_X = (SCREEN_WIDTH - INPUT_BOX_WIDTH) / 2;
-// const int INPUT_BOX_POS_Y = 400;
-
-
 int main(int argc, char *argv[])
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
@@ -52,7 +46,6 @@ int main(int argc, char *argv[])
     
     bool quit = false;
     State currentState = MENU;
-    // State currentState = NAME_INPUT;  // Start with the name input screen
 
     while (!quit)
     {
@@ -89,7 +82,6 @@ int main(int argc, char *argv[])
         else if (currentState == NAME_INPUT)
         {
             handleNameInput(renderer, font, quit, currentState, playerName);
-            currentState = LEVEL1_LOADING_PAGE;
         }
     }
 

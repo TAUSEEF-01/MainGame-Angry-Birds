@@ -11,6 +11,10 @@ extern const int OPTION_BUTTON_POS_X;
 extern const int OPTION_BUTTON_POS_Y;
 extern const int MUSIC_BUTTON_POS_X;
 extern const int MUSIC_BUTTON_POS_Y;
+extern const int INPUT_BOX_WIDTH;
+extern const int INPUT_BOX_HEIGHT;
+extern const int INPUT_BOX_POS_X;
+extern const int INPUT_BOX_POS_Y;
 
 enum State
 {
