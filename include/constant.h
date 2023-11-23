@@ -18,7 +18,9 @@ enum State
     NEW_PAGE,
     SETTING,
     PLAY_WINDOW, 
-    LEVEL2
+    LEVEL2,
+    LEVEL1_LOADING_PAGE,
+    LEVEL2_LOADING_PAGE
 };
 
 #endif

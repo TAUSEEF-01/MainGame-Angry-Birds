@@ -1,5 +1,6 @@
 #include "main.h"
 
+// This is the second page where Play Button is added.
 
 void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
@@ -106,7 +107,7 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
             {
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
                 SDL_Delay(100);          
-                currentState = PLAY_WINDOW;
+                currentState = LEVEL1_LOADING_PAGE;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }

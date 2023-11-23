@@ -54,7 +54,15 @@ int main(int argc, char *argv[])
         else if (currentState == LEVEL2)
         {
             level2(renderer, quit, currentState, musicPlaying);
-        }   
+        }
+        else if (currentState == LEVEL1_LOADING_PAGE)
+        {
+            level1_loading_page(renderer, quit, currentState);
+        }
+        else if (currentState == LEVEL2_LOADING_PAGE)
+        {
+            level2_loading_page(renderer, quit, currentState);
+        }
     }
 
 

@@ -1,5 +1,8 @@
 #include "main.h"
-#include <SDL2/SDL_mixer.h>
+
+// This is the first level of the game.
+
+
 
 // int musicPlaying = 1;              // Flag to indicate if music is playing (1 for playing, 0 for stopped)
 SDL_Texture *currentButtonTexture; // Variable to hold the current button texture
@@ -204,7 +207,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
                 if (Green == 0) // Level
                 {
-                    currentState = LEVEL2; // added extra
+                    currentState = LEVEL2_LOADING_PAGE; // added extra
 
                     printf("Bird got hit.\n");
 

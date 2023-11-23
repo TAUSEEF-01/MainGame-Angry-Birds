@@ -1,5 +1,7 @@
 #include "main.h"
-#include <SDL2/SDL_mixer.h>
+
+// This is the second level of the game.
+
 
 SDL_Texture *currentButtonTexture2; // Variable to hold the current button texture
 
