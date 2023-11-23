@@ -42,7 +42,9 @@ void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
     SDL_Delay(500);
 }
 
-void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
+
+// void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
+void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/background_play.png");
     SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/bird.png");
@@ -70,6 +72,30 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
     if (musicPlaying)
         Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
+
+
+
+    /**/
+    // Render the player's name on top of the window
+    TTF_Font* nameFont = TTF_OpenFont("arial.ttf", 28);  // Use a font size that fits your needs
+    if (nameFont == nullptr) {
+        printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
+        return;
+    }
+
+    SDL_Color nameColor = {255, 255, 255};
+    SDL_Surface* nameSurface = TTF_RenderText_Solid(nameFont, playerName.c_str(), nameColor);
+    SDL_Texture* nameTexture = SDL_CreateTextureFromSurface(renderer, nameSurface);
+    SDL_FreeSurface(nameSurface);
+
+    // Position the player's name at the top center of the window
+    int namePosX = (SCREEN_WIDTH - nameSurface->w) / 2;
+    int namePosY = 20;
+
+    SDL_Rect nameRect = {namePosX, namePosY, nameSurface->w, nameSurface->h};
+    // SDL_RenderCopy(renderer, nameTexture, NULL, &nameRect);
+    /**/
+
 
     SDL_Event e;
 
@@ -267,6 +293,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
         SDL_RenderCopy(renderer, backgroundPlayTexture, NULL, NULL);
         SDL_RenderCopy(renderer, slingshot_back, NULL, &slingshot_rect);
         SDL_RenderCopy(renderer, birdTexture, NULL, &bird_rect);
+        SDL_RenderCopy(renderer, nameTexture, NULL, &nameRect);
 
         SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect); // showing the back button
 
@@ -291,6 +318,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
         prev_x_position = bird_rect.x;
     }
 
+
     Mix_FreeMusic(backgroundMusic);
     Mix_CloseAudio();
 
@@ -302,6 +330,11 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
     SDL_DestroyTexture(backgroundPlayTexture);
     SDL_DestroyTexture(birdTexture);
+
+
+    /**/
+    SDL_DestroyTexture(nameTexture);
+    TTF_CloseFont(nameFont);
 }
 
 // #include "main.h"

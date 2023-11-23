@@ -16,6 +16,7 @@ enum State
 {
     MENU,
     NEW_PAGE,
+    NAME_INPUT,
     SETTING,
     PLAY_WINDOW, 
     LEVEL2,

@@ -1,12 +1,23 @@
 #include "main.h"
 
 
+// const int INPUT_BOX_WIDTH = 300;
+// const int INPUT_BOX_HEIGHT = 40;
+// const int INPUT_BOX_POS_X = (SCREEN_WIDTH - INPUT_BOX_WIDTH) / 2;
+// const int INPUT_BOX_POS_Y = 400;
+
 
 int main(int argc, char *argv[])
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
         return 1;
     }
 
@@ -25,12 +36,23 @@ int main(int argc, char *argv[])
     }
 
 
+    /**/
+    TTF_Font* font = TTF_OpenFont("arial.ttf", 28);
+    if (font == nullptr) {
+        printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
+        return 1;
+    }
+
+
     int musicPlaying = 1;  
 
+    /**/
+    std::string playerName;
 
     
     bool quit = false;
     State currentState = MENU;
+    // State currentState = NAME_INPUT;  // Start with the name input screen
 
     while (!quit)
     {
@@ -49,7 +71,7 @@ int main(int argc, char *argv[])
         }
         else if (currentState == PLAY_WINDOW)
         {
-            handlePlayWindow(renderer, quit, currentState, musicPlaying);
+            handlePlayWindow(renderer, quit, currentState, musicPlaying, playerName);
         }
         else if (currentState == LEVEL2)
         {
@@ -63,11 +85,21 @@ int main(int argc, char *argv[])
         {
             level2_loading_page(renderer, quit, currentState);
         }
+        /**/
+        else if (currentState == NAME_INPUT)
+        {
+            handleNameInput(renderer, font, quit, currentState, playerName);
+            currentState = LEVEL1_LOADING_PAGE;
+        }
     }
 
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+
+    /**/
+    TTF_CloseFont(font);
+    TTF_Quit();
 
     IMG_Quit();
     SDL_Quit();
@@ -77,6 +109,58 @@ int main(int argc, char *argv[])
 
 
 
+// void handleNameInput(SDL_Renderer* renderer, TTF_Font* font, bool& quit, State& currentState, std::string& playerName) {
+//     SDL_Event nameInputEvent;
+//     SDL_StartTextInput();  // Enable text input
+
+//     bool inputActive = true;
+//     SDL_Color textColor = {255, 255, 255};
+//     std::string inputText;
+
+//     while (inputActive) {
+//         while (SDL_PollEvent(&nameInputEvent) != 0) {
+//             if (nameInputEvent.type == SDL_QUIT) {
+//                 quit = true;
+//                 inputActive = false;
+//             } else if (nameInputEvent.type == SDL_KEYDOWN) {
+//                 if (nameInputEvent.key.keysym.sym == SDLK_RETURN) {
+//                     // Enter key pressed, exit the name input
+//                     inputActive = false;
+//                     currentState = MENU;  // Change the state to MENU after name input
+//                     playerName = inputText;  // Save the entered name
+//                 } else if (nameInputEvent.key.keysym.sym == SDLK_BACKSPACE && !inputText.empty()) {
+//                     // Backspace key pressed, remove a character
+//                     inputText.pop_back();
+//                 }
+//             } else if (nameInputEvent.type == SDL_TEXTINPUT) {
+//                 // Handle text input
+//                 inputText += nameInputEvent.text.text;
+//             }
+//         }
+
+//         // Render the background
+//         SDL_RenderClear(renderer);
+//         SDL_Surface* backgroundSurface = IMG_Load("background2.png");
+//         SDL_Texture* backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundSurface);
+//         SDL_FreeSurface(backgroundSurface);
+//         SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+
+//         // Render the input box
+//         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+//         SDL_Rect inputBoxRect = {INPUT_BOX_POS_X, INPUT_BOX_POS_Y, INPUT_BOX_WIDTH, INPUT_BOX_HEIGHT};
+//         SDL_RenderDrawRect(renderer, &inputBoxRect);
+
+//         // Render the input text
+//         SDL_Surface* textSurface = TTF_RenderText_Solid(font, inputText.c_str(), textColor);
+//         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+//         SDL_FreeSurface(textSurface);
+//         SDL_RenderCopy(renderer, textTexture, NULL, &inputBoxRect);
+
+//         SDL_RenderPresent(renderer);
+//     }
+
+//     SDL_StopTextInput();  // Disable text input
+// }
 
 
 

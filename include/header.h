@@ -11,3 +11,4 @@
 #include "mix_music.h"
 #include "level1_loading_page.h"
 #include "level2_loading_page.h"
+#include "name_input.h"
