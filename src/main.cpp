@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
 
     /**/
-    TTF_Font* font = TTF_OpenFont("arial.ttf", 28);
+    TTF_Font* font = TTF_OpenFont("roboto.ttf", 28);
     if (font == nullptr) {
         printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
         return 1;

@@ -77,7 +77,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
     /**/
     // Render the player's name on top of the window
-    TTF_Font* nameFont = TTF_OpenFont("arial.ttf", 28);  // Use a font size that fits your needs
+    TTF_Font* nameFont = TTF_OpenFont("roboto.ttf", 28);  // Use a font size that fits your needs
     if (nameFont == nullptr) {
         printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
         return;
