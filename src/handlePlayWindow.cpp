@@ -8,7 +8,7 @@
 SDL_Texture *currentButtonTexture; // Variable to hold the current button texture
 
 // Function to toggle music on/off
-void toggleMusic2(SDL_Texture *muteTexture, SDL_Texture *unmuteTexture, int &musicPlaying)
+void toggleMusic(SDL_Texture *muteTexture, SDL_Texture *unmuteTexture, int &musicPlaying)
 {
     if (musicPlaying)
     {
@@ -206,7 +206,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
                 if (X >= musicButtonRect.x && X <= (musicButtonRect.x + musicButtonRect.w) &&
                     Y >= musicButtonRect.y && Y <= (musicButtonRect.y + musicButtonRect.h))
                 {
-                    toggleMusic2(muteButtonTexture, unmuteButtonTexture, musicPlaying);
+                    toggleMusic(muteButtonTexture, unmuteButtonTexture, musicPlaying);
                     // SDL_Delay(150);
                 }
             }
@@ -343,7 +343,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 // SDL_Texture *currentButtonTexture; // Variable to hold the current button texture
 
 // // Function to toggle music on/off
-// void toggleMusic2(SDL_Texture *muteTexture, SDL_Texture *unmuteTexture, int &musicPlaying)
+// void toggleMusic(SDL_Texture *muteTexture, SDL_Texture *unmuteTexture, int &musicPlaying)
 // {
 //     if (musicPlaying)
 //     {
@@ -637,7 +637,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //                 if (X >= musicButtonRect.x && X <= (musicButtonRect.x + musicButtonRect.w) &&
 //                     Y >= musicButtonRect.y && Y <= (musicButtonRect.y + musicButtonRect.h))
 //                 {
-//                     toggleMusic2(muteButtonTexture, unmuteButtonTexture, musicPlaying);
+//                     toggleMusic(muteButtonTexture, unmuteButtonTexture, musicPlaying);
 //                     // SDL_Delay(150);
 //                 }
 //             }
@@ -842,7 +842,7 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 //         //         if (X >= musicButtonRect.x && X <= (musicButtonRect.x + musicButtonRect.w) &&
 //         //             Y >= musicButtonRect.y && Y <= (musicButtonRect.y + musicButtonRect.h))
 //         //         {
-//         //             toggleMusic2(muteButtonTexture, unmuteButtonTexture, musicPlaying);
+//         //             toggleMusic(muteButtonTexture, unmuteButtonTexture, musicPlaying);
 //         //             // SDL_Delay(150);
 //         //         }
 //         //     }

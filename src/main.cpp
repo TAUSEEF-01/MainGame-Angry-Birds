@@ -70,6 +70,18 @@ int main(int argc, char *argv[])
         {
             level2(renderer, quit, currentState, musicPlaying, playerName);
         }
+        else if (currentState == LEVEL3)
+        {
+            level3(renderer, quit, currentState, musicPlaying, playerName);
+        }
+        else if (currentState == LEVEL4)
+        {
+            level4(renderer, quit, currentState, musicPlaying, playerName);
+        }
+        else if (currentState == LEVEL5)
+        {
+            level5(renderer, quit, currentState, musicPlaying, playerName);
+        }
         else if (currentState == LEVEL1_LOADING_PAGE)
         {
             level1_loading_page(renderer, quit, currentState);
@@ -77,6 +89,18 @@ int main(int argc, char *argv[])
         else if (currentState == LEVEL2_LOADING_PAGE)
         {
             level2_loading_page(renderer, quit, currentState);
+        }
+        else if (currentState == LEVEL3_LOADING_PAGE)
+        {
+            level3_loading_page(renderer, quit, currentState);
+        }
+        else if (currentState == LEVEL4_LOADING_PAGE)
+        {
+            level4_loading_page(renderer, quit, currentState);
+        }
+        else if (currentState == LEVEL5_LOADING_PAGE)
+        {
+            level5_loading_page(renderer, quit, currentState);
         }
         /**/
         else if (currentState == NAME_INPUT)
