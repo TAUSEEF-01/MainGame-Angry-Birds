@@ -31,7 +31,8 @@ enum State
     LEVEL4_LOADING_PAGE,
     LEVEL4,
     LEVEL5_LOADING_PAGE,
-    LEVEL5
+    LEVEL5,     
+    EXIT_PAGE,
 };
 
 #endif

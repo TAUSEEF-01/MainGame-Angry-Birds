@@ -20,7 +20,8 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
         return;
     }
 
-    SDL_Surface *playButtonSurface = IMG_Load("../res/play_button2.png");
+    // SDL_Surface *playButtonSurface = IMG_Load("../res/play_button2.png");
+    SDL_Surface *playButtonSurface = IMG_Load("../res/start3.png");
     if (playButtonSurface == nullptr)
     {
         printf("Unable to load play button image! SDL_Error: %s\n", SDL_GetError());
@@ -39,7 +40,8 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     SDL_SetTextureColorMod(playButtonTexture, 150, 150, 150);
     SDL_Rect playButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 100, 250, 60};
 
-    SDL_Surface *optionButtonSurface = IMG_Load("../res/option_button.png");
+    // SDL_Surface *optionButtonSurface = IMG_Load("../res/option_button.png");
+    SDL_Surface *optionButtonSurface = IMG_Load("../res/exit2.png");
     if (optionButtonSurface == nullptr)
     {
         printf("Unable to load option button image! SDL_Error: %s\n", SDL_GetError());
@@ -134,11 +136,12 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
             if (mouseX >= optionButtonRect.x && mouseX <= (optionButtonRect.x + optionButtonRect.w) &&
                 mouseY >= optionButtonRect.y && mouseY <= (optionButtonRect.y + optionButtonRect.h))
             {
-                printf("Setting button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+                printf("Exit button clicked!\n"); // make sure kortesi j setting button kaj kore kina
 
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
                 SDL_Delay(100);          
-                currentState = SETTING;
+                // currentState = SETTING;
+                currentState = EXIT_PAGE;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }

@@ -62,6 +62,10 @@ int main(int argc, char *argv[])
             settingPage(renderer, quit, currentState);
             // settingPage(renderer, SettingPageTexture, muteButtonTexture, unmuteButtonTexture, musicButtonRect, quit, currentState);
         }
+        else if (currentState == EXIT_PAGE) 
+        {
+            exit_page(renderer, quit, currentState);
+        }
         else if (currentState == PLAY_WINDOW)
         {
             handlePlayWindow(renderer, quit, currentState, musicPlaying, playerName);
