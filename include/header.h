@@ -20,3 +20,5 @@
 #include "level5_loading_page.h"
 #include "exit.h"
 #include "score.h"
+#include "score_loading_page.h"
+#include "story.h"

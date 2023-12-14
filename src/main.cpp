@@ -109,6 +109,10 @@ int main(int argc, char *argv[])
         {
             level5_loading_page(renderer, quit, currentState);
         }
+        else if (currentState == SCORE_LOADING_PAGE)
+        {
+            score_loading_page(renderer, quit, currentState);
+        }
         /**/
         else if (currentState == NAME_INPUT)
         {
@@ -117,6 +121,11 @@ int main(int argc, char *argv[])
         else if(currentState == SCORE_PAGE)
         {
             handleScoreDisplay(renderer, currentState, playerScore, playerName, quit);
+        }
+        else if (currentState == STORY_PAGE)
+        {
+            // showStory(renderer, font, currentState);
+            showStory(renderer, quit, currentState);
         }
     }
 

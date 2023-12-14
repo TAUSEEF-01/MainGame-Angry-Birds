@@ -112,7 +112,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         {
             if(turns <= 0 && (e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP))
             {
-                currentState = SCORE_PAGE;
+                currentState = SCORE_LOADING_PAGE;
                 SDL_DestroyTexture(backgroundPlayTexture);
                 SDL_DestroyTexture(birdTexture);
                 return;
@@ -253,7 +253,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                 if (Green == 0) // Level
                 {
                     playerScore += 10;
-                    currentState = SCORE_PAGE; // added extra
+                    currentState = SCORE_LOADING_PAGE; // added extra
 
                     printf("Bird got hit. level2\n");
 
@@ -320,7 +320,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         SDL_Texture *scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
         SDL_FreeSurface(scoreSurface);
 
-        SDL_Rect scoreRect = {namePosX - 100, namePosY + 50, 200, 50};
+        SDL_Rect scoreRect = {namePosX - 60, namePosY + 50, 200, 50};
         SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
         // SDL_DestroyTexture(scoreTexture);
 
@@ -364,7 +364,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         /**/
         if(turns <= -1)
         {
-            currentState = SCORE_PAGE;
+            currentState = SCORE_LOADING_PAGE;
             SDL_DestroyTexture(backgroundPlayTexture);
             SDL_DestroyTexture(birdTexture);
             return;
@@ -378,7 +378,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     SDL_Texture *scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
     SDL_FreeSurface(scoreSurface);
 
-    SDL_Rect scoreRect = {namePosX , namePosY + 50, nameSurface->w, nameSurface->h};
+    SDL_Rect scoreRect = {namePosX - 60, namePosY + 50, 200, 50};
     SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
     SDL_DestroyTexture(scoreTexture);
 

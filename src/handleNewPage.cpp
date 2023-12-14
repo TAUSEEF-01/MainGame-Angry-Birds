@@ -142,6 +142,7 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
                 SDL_Delay(100);          
                 // currentState = SETTING;
                 currentState = EXIT_PAGE;
+                // currentState = STORY_PAGE;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }
