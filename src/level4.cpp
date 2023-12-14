@@ -29,10 +29,10 @@ bool collide4(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-void level4(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName)
+void level4(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/level2_background.png");
-    SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/yellow_bird2.png");
+    SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/blue_bird.png");
     SDL_Texture *slingshot_back = surfaceToTexture(renderer, "../res/slingshot_back.png");
     SDL_Texture *slingshot_front = surfaceToTexture(renderer, "../res/slingshot_front.png");
     SDL_Texture *green_bird = surfaceToTexture(renderer, "../res/green_bird.png");
@@ -221,6 +221,7 @@ void level4(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
                 if (Green == 0) // Level
                 {
+                    playerScore += 10;
                     currentState = LEVEL5_LOADING_PAGE; // added extra
 
                     printf("Bird got hit.\n");

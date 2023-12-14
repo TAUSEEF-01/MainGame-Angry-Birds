@@ -2,7 +2,7 @@
 
 void level4_loading_page(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
-    SDL_Texture *backgroundTexture = surfaceToTexture(renderer, "../res/level3_loading_page.png");
+    SDL_Texture *backgroundTexture = surfaceToTexture(renderer, "../res/level4_loading_page.png");
 
     SDL_RenderClear(renderer);
 

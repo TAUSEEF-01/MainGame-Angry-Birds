@@ -3,6 +3,6 @@
 
 #include "header.h"
 
-void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName);
+void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore);
 
 #endif

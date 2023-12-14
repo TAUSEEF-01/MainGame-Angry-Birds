@@ -44,7 +44,7 @@ void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
 
 
 // void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
-void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName)
+void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/background_play.png");
     SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/bird.png");
@@ -233,8 +233,8 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
                 if (Green == 0) // Level
                 {
-                    // currentState = LEVEL2_LOADING_PAGE; // added extra
-                    currentState = SCORE_PAGE; // added extra
+                    playerScore += 10;
+                    currentState = LEVEL2_LOADING_PAGE; // added extra
 
                     printf("Bird got hit.\n");
 

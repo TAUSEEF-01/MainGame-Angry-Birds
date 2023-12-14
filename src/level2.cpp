@@ -29,7 +29,7 @@ bool collide2(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName)
+void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/level2_background.png");
     SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/yellow_bird2.png");
@@ -221,6 +221,7 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
                 if (Green == 0) // Level
                 {
+                    playerScore += 10;
                     currentState = LEVEL3_LOADING_PAGE; // added extra
 
                     printf("Bird got hit. level2\n");

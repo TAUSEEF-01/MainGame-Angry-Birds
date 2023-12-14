@@ -1,6 +1,6 @@
 #include "main.h"
 
-void handleScoreDisplay(SDL_Renderer *renderer, State &currentState, TTF_Font *font, int playerScore, const std::string &playerName, bool &quit)
+void handleScoreDisplay(SDL_Renderer *renderer, State &currentState, int &playerScore, const std::string &playerName, bool &quit)
 {
     SDL_Event scoreDisplayEvent;
 
@@ -26,7 +26,7 @@ void handleScoreDisplay(SDL_Renderer *renderer, State &currentState, TTF_Font *f
 
 
     TTF_Font* font2 = TTF_OpenFont("roboto.ttf", 36);
-    if (font == nullptr) {
+    if (font2 == nullptr) {
         printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
         return;
     }
@@ -95,7 +95,7 @@ void handleScoreDisplay(SDL_Renderer *renderer, State &currentState, TTF_Font *f
     SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect);
 
 
-    playerScore = 100;
+    // playerScore = 100;
 
     // Render the score text
     std::string scoreText = "Your Score: " + std::to_string(playerScore);

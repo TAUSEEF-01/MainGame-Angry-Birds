@@ -70,23 +70,23 @@ int main(int argc, char *argv[])
         }
         else if (currentState == PLAY_WINDOW)
         {
-            handlePlayWindow(renderer, quit, currentState, musicPlaying, playerName);
+            handlePlayWindow(renderer, quit, currentState, musicPlaying, playerName, playerScore);
         }
         else if (currentState == LEVEL2)
         {
-            level2(renderer, quit, currentState, musicPlaying, playerName);
+            level2(renderer, quit, currentState, musicPlaying, playerName, playerScore);
         }
         else if (currentState == LEVEL3)
         {
-            level3(renderer, quit, currentState, musicPlaying, playerName);
+            level3(renderer, quit, currentState, musicPlaying, playerName, playerScore);
         }
         else if (currentState == LEVEL4)
         {
-            level4(renderer, quit, currentState, musicPlaying, playerName);
+            level4(renderer, quit, currentState, musicPlaying, playerName, playerScore);
         }
         else if (currentState == LEVEL5)
         {
-            level5(renderer, quit, currentState, musicPlaying, playerName);
+            level5(renderer, quit, currentState, musicPlaying, playerName, playerScore);
         }
         else if (currentState == LEVEL1_LOADING_PAGE)
         {
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
         }
         else if(currentState == SCORE_PAGE)
         {
-            handleScoreDisplay(renderer, currentState, font, playerScore, playerName, quit);
+            handleScoreDisplay(renderer, currentState, playerScore, playerName, quit);
         }
     }
 
