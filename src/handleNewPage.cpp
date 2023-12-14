@@ -40,6 +40,36 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     SDL_SetTextureColorMod(playButtonTexture, 150, 150, 150);
     SDL_Rect playButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 100, 250, 60};
 
+
+
+    /**/
+
+    SDL_Surface *storySurface = IMG_Load("../res/story2.png");
+    if (storySurface == nullptr)
+    {
+        printf("Unable to load play button image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_Texture *storyTexture = SDL_CreateTextureFromSurface(renderer, storySurface);
+    SDL_FreeSurface(storySurface);
+
+    if (storyTexture == nullptr)
+    {
+        printf("Unable to create texture from play button image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_SetTextureColorMod(storyTexture, 150, 150, 150);
+    SDL_Rect storyButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 300, 250, 60};
+
+    /**/
+
+
+
+
+
+
     // SDL_Surface *optionButtonSurface = IMG_Load("../res/option_button.png");
     SDL_Surface *optionButtonSurface = IMG_Load("../res/exit2.png");
     if (optionButtonSurface == nullptr)
@@ -146,6 +176,22 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }
+
+
+
+            if (mouseX >= storyButtonRect.x && mouseX <= (storyButtonRect.x + storyButtonRect.w) &&
+                mouseY >= storyButtonRect.y && mouseY <= (storyButtonRect.y + storyButtonRect.h))
+            {
+                printf("Exit button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+
+                Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
+                SDL_Delay(100);          
+                // currentState = SETTING;
+                currentState = STORY_PAGE;
+                // currentState = STORY_PAGE;
+                Mix_FreeMusic(backgroundMusic);
+                Mix_CloseAudio();
+            }
         }
     }
 
@@ -174,6 +220,17 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
         SDL_SetTextureColorMod(optionButtonTexture, 150, 150, 150);
     }
 
+
+    if (mouseX >= storyButtonRect.x && mouseX <= (storyButtonRect.x + storyButtonRect.w) &&
+        mouseY >= storyButtonRect.y && mouseY <= (storyButtonRect.y + storyButtonRect.h))
+    {
+        SDL_SetTextureColorMod(storyTexture, 255, 255, 255);
+    }
+    else
+    {
+        SDL_SetTextureColorMod(storyTexture, 150, 150, 150);
+    }
+
     // /**/
     // // Render player name input
     // TTF_Font *font = TTF_OpenFont("arial.ttf", 28);
@@ -190,12 +247,15 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 
     SDL_RenderCopy(renderer, optionButtonTexture, NULL, &optionButtonRect);
 
+    SDL_RenderCopy(renderer, storyTexture, NULL, &storyButtonRect);
+
     SDL_RenderPresent(renderer);
 
 
     SDL_DestroyTexture(playButtonTexture);
     SDL_DestroyTexture(optionButtonTexture);
     SDL_DestroyTexture(backgroundPlayTexture);
+    SDL_DestroyTexture(storyTexture);
     
     // /**/
     // SDL_DestroyTexture(playerNameTexture);
