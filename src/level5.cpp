@@ -218,6 +218,18 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
             if (bird_rect.x - 50 >= (SCREEN_WIDTH) || (bird_rect.x + Bird_length + 100 <= 0))
             {
                 jump = 0;
+
+                if (Green == 0) // Level
+                {
+                    currentState = SCORE_PAGE; // added extra
+
+                    printf("Bird got hit. level2\n");
+
+                    SDL_DestroyTexture(backgroundPlayTexture);
+                    SDL_DestroyTexture(birdTexture);
+                    return;
+                }
+
                 Green = 1;
 
                 bird_rect.x = Start_x;

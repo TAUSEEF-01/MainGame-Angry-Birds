@@ -33,6 +33,7 @@ enum State
     LEVEL5_LOADING_PAGE,
     LEVEL5,     
     EXIT_PAGE,
+    SCORE_PAGE,
 };
 
 #endif

@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    int playerScore = 0;
+
 
     int musicPlaying = 1;  
 
@@ -110,6 +112,10 @@ int main(int argc, char *argv[])
         else if (currentState == NAME_INPUT)
         {
             handleNameInput(renderer, font, quit, currentState, playerName);
+        }
+        else if(currentState == SCORE_PAGE)
+        {
+            handleScoreDisplay(renderer, currentState, font, playerScore, playerName, quit);
         }
     }
 

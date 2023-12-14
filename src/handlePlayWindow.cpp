@@ -233,7 +233,8 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
                 if (Green == 0) // Level
                 {
-                    currentState = LEVEL2_LOADING_PAGE; // added extra
+                    // currentState = LEVEL2_LOADING_PAGE; // added extra
+                    currentState = SCORE_PAGE; // added extra
 
                     printf("Bird got hit.\n");
 

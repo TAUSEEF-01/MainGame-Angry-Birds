@@ -19,3 +19,4 @@
 #include "level4_loading_page.h"
 #include "level5_loading_page.h"
 #include "exit.h"
+#include "score.h"
