@@ -1,5 +1,6 @@
 #include "main.h"
 
+// This is the first page. Loading screen.
 
 void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
