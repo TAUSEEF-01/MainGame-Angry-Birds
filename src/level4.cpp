@@ -36,7 +36,8 @@ void level4(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     SDL_Texture *slingshot_back = surfaceToTexture(renderer, "../res/slingshot_back.png");
     SDL_Texture *slingshot_front = surfaceToTexture(renderer, "../res/slingshot_front.png");
     SDL_Texture *green_bird = surfaceToTexture(renderer, "../res/green_bird.png");
-    SDL_Texture *back_buttonTexture = surfaceToTexture(renderer, "../res/back_button.png");
+    // SDL_Texture *back_buttonTexture = surfaceToTexture(renderer, "../res/back_button.png");
+    SDL_Texture *back_buttonTexture = surfaceToTexture(renderer, "../res/exit_page.png");
     SDL_Texture *muteButtonTexture = surfaceToTexture(renderer, "../res/mute2.png");
     SDL_Texture *unmuteButtonTexture = surfaceToTexture(renderer, "../res/unmute2.png");
 
