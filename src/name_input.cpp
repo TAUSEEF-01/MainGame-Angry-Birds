@@ -1,7 +1,9 @@
 #include "main.h"
 
-void handleNameInput(SDL_Renderer *renderer, TTF_Font *font, bool &quit, State &currentState, std::string &playerName)
+void handleNameInput(SDL_Renderer *renderer, TTF_Font *font, bool &quit, State &currentState, std::string &playerName, int &turns)
 {
+    turns = 5;
+
     SDL_Event nameInputEvent;
     SDL_StartTextInput(); // Enable text input
 

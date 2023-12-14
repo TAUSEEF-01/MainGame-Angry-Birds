@@ -29,7 +29,7 @@ bool collide5(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore)
+void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns)
 {
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/level2_background.png");
     SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/yellow_bird2.png");
@@ -54,7 +54,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     }
 
     Mix_Music *backButtonMusic = Music("../res/back_button.mp3");
-    Mix_Music *backgroundMusic = Music("../res/background_music.mp3");
+    Mix_Music *backgroundMusic = Music("../res/background_music2.mp3");
 
     if (musicPlaying)
         Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
@@ -62,7 +62,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
     /**/
     // Render the player's name on top of the window
-    TTF_Font* nameFont = TTF_OpenFont("roboto.ttf", 28);  // Use a font size that fits your needs
+    TTF_Font* nameFont = TTF_OpenFont("roboto.ttf", 32);  // Use a font size that fits your needs
     if (nameFont == nullptr) {
         printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
         return;
@@ -77,6 +77,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     int namePosX = (SCREEN_WIDTH - nameSurface->w) / 2;
     int namePosY = 20;
 
+    // SDL_Rect nameRect = {namePosX, namePosY, nameSurface->w, nameSurface->h};
     SDL_Rect nameRect = {namePosX, namePosY, nameSurface->w, nameSurface->h};
     /**/
 
@@ -97,10 +98,26 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
     SDL_Rect slingshot_rect = {210, 645, 47, 124};
     SDL_Rect green_bird_rect = {1400, 545, 100, 100};
 
+
+    TTF_Font* font2 = TTF_OpenFont("roboto.ttf", 32);
+    if (font2 == nullptr) {
+        printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
+        return;
+    }
+
+
     while (!quit)
     {
         while (SDL_PollEvent(&e))
         {
+            if(turns <= 0 && (e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP))
+            {
+                currentState = SCORE_PAGE;
+                SDL_DestroyTexture(backgroundPlayTexture);
+                SDL_DestroyTexture(birdTexture);
+                return;
+            }
+
             if (e.type == SDL_QUIT)
                 quit = true;
             else if (e.type == SDL_MOUSEMOTION && SDL_MOUSEBUTTONDOWN)
@@ -111,6 +128,7 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
                     if (e.button.button == SDL_BUTTON_LEFT)
                     {
+                        // turns--;
 
                         if (clicked || (X >= bird_rect.x && X <= bird_rect.x + Bird_length) && (Y >= bird_rect.y && Y <= bird_rect.y + Bird_length)) // is clicked inside bird
                         {
@@ -132,6 +150,17 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
                 if (e.button.button == SDL_BUTTON_LEFT)
                 {
+                    if(!((X >= playButtonRect.x && X <= (playButtonRect.x + playButtonRect.w) && 
+                    Y >= playButtonRect.y && Y <= (playButtonRect.y + playButtonRect.h)) ||
+                    (X >= musicButtonRect.x && X <= (musicButtonRect.x + musicButtonRect.w) &&
+                    Y >= musicButtonRect.y && Y <= (musicButtonRect.y + musicButtonRect.h))) && 
+                    (clicked || (X >= bird_rect.x && X <= bird_rect.x + Bird_length) && (Y >= bird_rect.y && Y <= bird_rect.y + Bird_length)))
+                    {
+                        turns--;
+                        printf("Button clicked. Turns : %d\n", turns);
+                    }
+
+
                     speed_x = (Start_x - bird_rect.x) / 5.0;
                     speed_y = -(Start_y - bird_rect.y) / 5.0;
                     bird_rect.x = Start_x;
@@ -200,6 +229,8 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                 }
             }
         }
+
+
 
         if (musicPlaying)
         {
@@ -283,6 +314,16 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         SDL_RenderCopy(renderer, birdTexture, NULL, &bird_rect);
         SDL_RenderCopy(renderer, nameTexture, NULL, &nameRect);
 
+        // Render the score text
+        std::string scoreText = "Turns Left: " + std::to_string(turns);
+        SDL_Surface *scoreSurface = TTF_RenderText_Solid(font2, scoreText.c_str(), {255, 255, 255});
+        SDL_Texture *scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+        SDL_FreeSurface(scoreSurface);
+
+        SDL_Rect scoreRect = {namePosX - 100, namePosY + 50, 200, 50};
+        SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+        // SDL_DestroyTexture(scoreTexture);
+
 
         SDL_RenderCopy(renderer, back_buttonTexture, NULL, &playButtonRect); // showing the back button
 
@@ -318,7 +359,30 @@ void level5(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
         //     SDL_DestroyTexture(birdTexture);
         //     return;
         // }
+
+
+        /**/
+        if(turns <= -1)
+        {
+            currentState = SCORE_PAGE;
+            SDL_DestroyTexture(backgroundPlayTexture);
+            SDL_DestroyTexture(birdTexture);
+            return;
+        }
+        /**/
     }
+
+    // Render the score text
+    std::string scoreText = "Turns Left: " + std::to_string(turns);
+    SDL_Surface *scoreSurface = TTF_RenderText_Solid(font2, scoreText.c_str(), {255, 255, 255});
+    SDL_Texture *scoreTexture = SDL_CreateTextureFromSurface(renderer, scoreSurface);
+    SDL_FreeSurface(scoreSurface);
+
+    SDL_Rect scoreRect = {namePosX , namePosY + 50, nameSurface->w, nameSurface->h};
+    SDL_RenderCopy(renderer, scoreTexture, NULL, &scoreRect);
+    SDL_DestroyTexture(scoreTexture);
+
+
 
     Mix_FreeMusic(backgroundMusic);
     Mix_CloseAudio();

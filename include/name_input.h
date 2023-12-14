@@ -3,6 +3,6 @@
 
 #include "header.h"
 
-void handleNameInput(SDL_Renderer* renderer, TTF_Font* font, bool& quit, State& currentState, std::string& playerName);
+void handleNameInput(SDL_Renderer* renderer, TTF_Font* font, bool& quit, State& currentState, std::string& playerName, int &turns);
 
 #endif
