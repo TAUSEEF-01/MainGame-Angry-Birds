@@ -115,6 +115,12 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                 currentState = SCORE_LOADING_PAGE;
                 SDL_DestroyTexture(backgroundPlayTexture);
                 SDL_DestroyTexture(birdTexture);
+                
+                // 
+                Mix_FreeMusic(backgroundMusic);
+                Mix_CloseAudio();
+                // 
+
                 return;
             }
 
@@ -255,6 +261,11 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
 
                     printf("Bird got hit. level2\n");
 
+                    // 
+                    Mix_FreeMusic(backgroundMusic);
+                    Mix_CloseAudio();
+                    // 
+
                     SDL_DestroyTexture(backgroundPlayTexture);
                     SDL_DestroyTexture(birdTexture);
                     return;
@@ -364,6 +375,12 @@ void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
             currentState = SCORE_LOADING_PAGE;
             SDL_DestroyTexture(backgroundPlayTexture);
             SDL_DestroyTexture(birdTexture);
+
+            // 
+            Mix_FreeMusic(backgroundMusic);
+            Mix_CloseAudio();
+            // 
+
             return;
         }
         /**/

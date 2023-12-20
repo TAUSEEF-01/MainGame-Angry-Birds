@@ -129,6 +129,12 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
                 currentState = SCORE_LOADING_PAGE;
                 SDL_DestroyTexture(backgroundPlayTexture);
                 SDL_DestroyTexture(birdTexture);
+
+                // 
+                Mix_FreeMusic(backgroundMusic);
+                Mix_CloseAudio();
+                // 
+
                 return;
             }
 
@@ -267,6 +273,11 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
 
                     printf("Bird got hit.\n");
 
+                    // 
+                    Mix_FreeMusic(backgroundMusic);
+                    Mix_CloseAudio();
+                    // 
+
                     SDL_DestroyTexture(backgroundPlayTexture);
                     SDL_DestroyTexture(birdTexture);
                     return;
@@ -366,6 +377,12 @@ void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, i
             currentState = SCORE_LOADING_PAGE;
             SDL_DestroyTexture(backgroundPlayTexture);
             SDL_DestroyTexture(birdTexture);
+
+            // 
+            Mix_FreeMusic(backgroundMusic);
+            Mix_CloseAudio();
+            // 
+
             return;
         }
         /**/
