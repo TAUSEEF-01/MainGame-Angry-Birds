@@ -29,8 +29,11 @@ bool collide3(SDL_Rect a, SDL_Rect b)
     return 0;
 }
 
-void level3(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns)
+void level3(SDL_Renderer *renderer, bool &quit, State &currentState, State &previousState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns)
 {
+    previousState = currentState;
+
+    
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/level2_background.png");
     SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/black_bird.png");
     SDL_Texture *slingshot_back = surfaceToTexture(renderer, "../res/slingshot_back.png");

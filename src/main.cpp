@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 
     
     bool quit = false;
-    State currentState = MENU;
+    State currentState = MENU, previousState = NEW_PAGE;
 
     while (!quit)
     {
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
         }
         else if (currentState == NEW_PAGE)
         {
-            handleNewPage(renderer, quit, currentState);
+            handleNewPage(renderer, quit, currentState, previousState);
         }
         else if (currentState == SETTING) 
         {
@@ -71,23 +71,23 @@ int main(int argc, char *argv[])
         }
         else if (currentState == PLAY_WINDOW)
         {
-            handlePlayWindow(renderer, quit, currentState, musicPlaying, playerName, playerScore, turns);
+            handlePlayWindow(renderer, quit, currentState, previousState, musicPlaying, playerName, playerScore, turns);
         }
         else if (currentState == LEVEL2)
         {
-            level2(renderer, quit, currentState, musicPlaying, playerName, playerScore, turns);
+            level2(renderer, quit, currentState, previousState, musicPlaying, playerName, playerScore, turns);
         }
         else if (currentState == LEVEL3)
         {
-            level3(renderer, quit, currentState, musicPlaying, playerName, playerScore, turns);
+            level3(renderer, quit, currentState, previousState, musicPlaying, playerName, playerScore, turns);
         }
         else if (currentState == LEVEL4)
         {
-            level4(renderer, quit, currentState, musicPlaying, playerName, playerScore, turns);
+            level4(renderer, quit, currentState, previousState, musicPlaying, playerName, playerScore, turns);
         }
         else if (currentState == LEVEL5)
         {
-            level5(renderer, quit, currentState, musicPlaying, playerName, playerScore, turns);
+            level5(renderer, quit, currentState, previousState, musicPlaying, playerName, playerScore, turns);
         }
         else if (currentState == LEVEL1_LOADING_PAGE)
         {
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
         }
         else if(currentState == SCORE_PAGE)
         {
-            handleScoreDisplay(renderer, currentState, playerScore, playerName, quit);
+            handleScoreDisplay(renderer, currentState, playerScore, previousState, playerName, quit);
         }
         else if (currentState == STORY_PAGE)
         {

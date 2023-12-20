@@ -3,6 +3,6 @@
 
 #include "header.h"
 
-void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState);
+void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState, State &previousState);
 
 #endif

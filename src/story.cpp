@@ -3,10 +3,10 @@
 void showStory(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
 
-    SDL_Texture *yes_button = surfaceToTexture(renderer, "../res/exit_page.png");
+    SDL_Texture *home_button = surfaceToTexture(renderer, "../res/exit_page.png");
 
-    SDL_SetTextureColorMod(yes_button, 150, 150, 150);
-    SDL_Rect yesButtonRect = {30, 30, 100, 100};
+    SDL_SetTextureColorMod(home_button, 150, 150, 150);
+    SDL_Rect home_buttonRect = {30, 30, 100, 100};
 
 
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
@@ -33,14 +33,14 @@ void showStory(SDL_Renderer *renderer, bool &quit, State &currentState)
         {
             int mouseX, mouseY;
             SDL_GetMouseState(&mouseX, &mouseY);
-            if (mouseX >= yesButtonRect.x && mouseX <= (yesButtonRect.x + yesButtonRect.w) &&
-                mouseY >= yesButtonRect.y && mouseY <= (yesButtonRect.y + yesButtonRect.h))
+            if (mouseX >= home_buttonRect.x && mouseX <= (home_buttonRect.x + home_buttonRect.w) &&
+                mouseY >= home_buttonRect.y && mouseY <= (home_buttonRect.y + home_buttonRect.h))
             {
-                SDL_SetTextureColorMod(yes_button, 255, 255, 255);
+                SDL_SetTextureColorMod(home_button, 255, 255, 255);
             }
             else
             {
-                SDL_SetTextureColorMod(yes_button, 150, 150, 150);
+                SDL_SetTextureColorMod(home_button, 150, 150, 150);
             }
 
         }
@@ -48,8 +48,8 @@ void showStory(SDL_Renderer *renderer, bool &quit, State &currentState)
         {
             int mouseX, mouseY;
             SDL_GetMouseState(&mouseX, &mouseY);
-            if (mouseX >= yesButtonRect.x && mouseX <= (yesButtonRect.x + yesButtonRect.w) &&
-                mouseY >= yesButtonRect.y && mouseY <= (yesButtonRect.y + yesButtonRect.h))
+            if (mouseX >= home_buttonRect.x && mouseX <= (home_buttonRect.x + home_buttonRect.w) &&
+                mouseY >= home_buttonRect.y && mouseY <= (home_buttonRect.y + home_buttonRect.h))
             {
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
                 SDL_Delay(100);
@@ -72,21 +72,21 @@ void showStory(SDL_Renderer *renderer, bool &quit, State &currentState)
     int mouseX, mouseY;
     SDL_GetMouseState(&mouseX, &mouseY);
 
-    if (mouseX >= yesButtonRect.x && mouseX <= (yesButtonRect.x + yesButtonRect.w) &&
-        mouseY >= yesButtonRect.y && mouseY <= (yesButtonRect.y + yesButtonRect.h))
+    if (mouseX >= home_buttonRect.x && mouseX <= (home_buttonRect.x + home_buttonRect.w) &&
+        mouseY >= home_buttonRect.y && mouseY <= (home_buttonRect.y + home_buttonRect.h))
     {
-        SDL_SetTextureColorMod(yes_button, 255, 255, 255);
+        SDL_SetTextureColorMod(home_button, 255, 255, 255);
     }
     else
     {
-        SDL_SetTextureColorMod(yes_button, 150, 150, 150);
+        SDL_SetTextureColorMod(home_button, 150, 150, 150);
     }
 
     /**/
 
     SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
 
-    SDL_RenderCopy(renderer, yes_button, NULL, &yesButtonRect);
+    SDL_RenderCopy(renderer, home_button, NULL, &home_buttonRect);
 
 
     SDL_RenderPresent(renderer);

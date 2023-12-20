@@ -44,8 +44,10 @@ void reset(bool jump, bool Green, int Start_x, int Start_y, SDL_Rect bird_rect)
 
 
 // void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
-void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns)
+void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, State &previousState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns)
 {
+    previousState = currentState;
+    
     SDL_Texture *backgroundPlayTexture = surfaceToTexture(renderer, "../res/background_play.png");
     SDL_Texture *birdTexture = surfaceToTexture(renderer, "../res/bird.png");
     SDL_Texture *slingshot_back = surfaceToTexture(renderer, "../res/slingshot_back.png");

@@ -5,6 +5,8 @@
 
 // void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying);
 // void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying)
-void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns);
+// void level2(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns);
+void level2(SDL_Renderer *renderer, bool &quit, State &currentState, State &previousState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns);
+
 
 #endif

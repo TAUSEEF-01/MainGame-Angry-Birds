@@ -2,7 +2,7 @@
 
 // This is the second page where Play Button is added.
 
-void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
+void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState, State &previousState)
 {
     SDL_Surface *newPageSurface = IMG_Load("../res/new_page2.png");
     if (newPageSurface == nullptr)
@@ -38,7 +38,33 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     }
 
     SDL_SetTextureColorMod(playButtonTexture, 150, 150, 150);
-    SDL_Rect playButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 100, 250, 60};
+    SDL_Rect playButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y , 250, 60};
+
+
+
+    // 
+
+    SDL_Surface *resumeSurface = IMG_Load("../res/resume.png");
+    if (resumeSurface == nullptr)
+    {
+        printf("Unable to load play button image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_Texture *resumeTexture = SDL_CreateTextureFromSurface(renderer, resumeSurface);
+    SDL_FreeSurface(resumeSurface);
+
+    if (resumeTexture == nullptr)
+    {
+        printf("Unable to create texture from play button image! SDL_Error: %s\n", SDL_GetError());
+        return;
+    }
+
+    SDL_SetTextureColorMod(resumeTexture, 150, 150, 150);
+    SDL_Rect resumeButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 100, 250, 60};
+
+    // 
+
 
 
 
@@ -61,7 +87,7 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     }
 
     SDL_SetTextureColorMod(storyTexture, 150, 150, 150);
-    SDL_Rect storyButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 300, 250, 60};
+    SDL_Rect storyButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 200, 250, 60};
 
     /**/
 
@@ -69,26 +95,28 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 
 
 
-
-    // SDL_Surface *optionButtonSurface = IMG_Load("../res/option_button.png");
-    SDL_Surface *optionButtonSurface = IMG_Load("../res/exit2.png");
-    if (optionButtonSurface == nullptr)
+    // SDL_Surface *exitButtonSurface = IMG_Load("../res/option_button.png");
+    SDL_Surface *exitButtonSurface = IMG_Load("../res/exit2.png");
+    if (exitButtonSurface == nullptr)
     {
         printf("Unable to load option button image! SDL_Error: %s\n", SDL_GetError());
         return;
     }
 
-    SDL_Texture *optionButtonTexture = SDL_CreateTextureFromSurface(renderer, optionButtonSurface);
-    SDL_FreeSurface(optionButtonSurface);
+    SDL_Texture *exitButtonTexture = SDL_CreateTextureFromSurface(renderer, exitButtonSurface);
+    SDL_FreeSurface(exitButtonSurface);
 
-    if (optionButtonTexture == nullptr)
+    if (exitButtonTexture == nullptr)
     {
         printf("Unable to create texture from option button image! SDL_Error: %s\n", SDL_GetError());
         return;
     }
 
-    SDL_SetTextureColorMod(optionButtonTexture, 150, 150, 150);
-    SDL_Rect optionButtonRect = {OPTION_BUTTON_POS_X + 50, OPTION_BUTTON_POS_Y + 200, 250, 60};
+    SDL_SetTextureColorMod(exitButtonTexture, 150, 150, 150);
+    SDL_Rect exitButtonRect = {OPTION_BUTTON_POS_X + 50, OPTION_BUTTON_POS_Y + 300 , 250, 60};
+
+
+
 
     SDL_Surface *backgroundPlaySurface = IMG_Load("../res/background_play.png");
     if (backgroundPlaySurface == nullptr)
@@ -163,8 +191,8 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
                 Mix_CloseAudio();
             }
 
-            if (mouseX >= optionButtonRect.x && mouseX <= (optionButtonRect.x + optionButtonRect.w) &&
-                mouseY >= optionButtonRect.y && mouseY <= (optionButtonRect.y + optionButtonRect.h))
+            if (mouseX >= exitButtonRect.x && mouseX <= (exitButtonRect.x + exitButtonRect.w) &&
+                mouseY >= exitButtonRect.y && mouseY <= (exitButtonRect.y + exitButtonRect.h))
             {
                 printf("Exit button clicked!\n"); // make sure kortesi j setting button kaj kore kina
 
@@ -188,7 +216,19 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
                 SDL_Delay(100);          
                 // currentState = SETTING;
                 currentState = STORY_PAGE;
-                // currentState = STORY_PAGE;
+                // currentState = previousState;
+                Mix_FreeMusic(backgroundMusic);
+                Mix_CloseAudio();
+            }
+
+            if (mouseX >= resumeButtonRect.x && mouseX <= (resumeButtonRect.x + resumeButtonRect.w) &&
+                mouseY >= resumeButtonRect.y && mouseY <= (resumeButtonRect.y + resumeButtonRect.h))
+            {
+                printf("Exit button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+
+                Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
+                SDL_Delay(100);          
+                currentState = previousState;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }
@@ -210,14 +250,14 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
         SDL_SetTextureColorMod(playButtonTexture, 150, 150, 150);
     }
 
-    if (mouseX >= optionButtonRect.x && mouseX <= (optionButtonRect.x + optionButtonRect.w) &&
-        mouseY >= optionButtonRect.y && mouseY <= (optionButtonRect.y + optionButtonRect.h))
+    if (mouseX >= exitButtonRect.x && mouseX <= (exitButtonRect.x + exitButtonRect.w) &&
+        mouseY >= exitButtonRect.y && mouseY <= (exitButtonRect.y + exitButtonRect.h))
     {
-        SDL_SetTextureColorMod(optionButtonTexture, 255, 255, 255);
+        SDL_SetTextureColorMod(exitButtonTexture, 255, 255, 255);
     }
     else
     {
-        SDL_SetTextureColorMod(optionButtonTexture, 150, 150, 150);
+        SDL_SetTextureColorMod(exitButtonTexture, 150, 150, 150);
     }
 
 
@@ -229,6 +269,17 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     else
     {
         SDL_SetTextureColorMod(storyTexture, 150, 150, 150);
+    }
+
+
+    if (mouseX >= resumeButtonRect.x && mouseX <= (resumeButtonRect.x + resumeButtonRect.w) &&
+        mouseY >= resumeButtonRect.y && mouseY <= (resumeButtonRect.y + resumeButtonRect.h))
+    {
+        SDL_SetTextureColorMod(resumeTexture, 255, 255, 255);
+    }
+    else
+    {
+        SDL_SetTextureColorMod(resumeTexture, 150, 150, 150);
     }
 
     // /**/
@@ -245,15 +296,18 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 
     SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButtonRect);
 
-    SDL_RenderCopy(renderer, optionButtonTexture, NULL, &optionButtonRect);
+    SDL_RenderCopy(renderer, exitButtonTexture, NULL, &exitButtonRect);
 
     SDL_RenderCopy(renderer, storyTexture, NULL, &storyButtonRect);
+
+    SDL_RenderCopy(renderer, resumeTexture, NULL, &resumeButtonRect);
 
     SDL_RenderPresent(renderer);
 
 
     SDL_DestroyTexture(playButtonTexture);
-    SDL_DestroyTexture(optionButtonTexture);
+    SDL_DestroyTexture(exitButtonTexture);
+    SDL_DestroyTexture(resumeTexture);
     SDL_DestroyTexture(backgroundPlayTexture);
     SDL_DestroyTexture(storyTexture);
     
