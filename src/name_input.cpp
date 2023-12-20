@@ -69,7 +69,8 @@ void handleNameInput(SDL_Renderer *renderer, TTF_Font *font, bool &quit, State &
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
         // // Render text
-        textSurface = TTF_RenderText_Solid(font, ("Write your name: " + playerName).c_str(), {0, 0, 0});
+        // textSurface = TTF_RenderText_Solid(font, ("Write your name: " + playerName).c_str(), {0, 0, 0});
+        textSurface = TTF_RenderText_Solid(font, ("Write your name: " + inputText).c_str(), {0, 0, 0}); // showing the typed letter and the current string
         textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
         SDL_Rect textRect = {10, 10, textSurface->w, textSurface->h};  // Adjust position as needed
