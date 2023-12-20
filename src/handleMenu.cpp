@@ -1,9 +1,10 @@
 #include "main.h"
 
+// This is the first page. Loading screen.
 
 void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
-    SDL_Surface *newPageSurface = IMG_Load("../res/Firstpage.png");
+    SDL_Surface *newPageSurface = IMG_Load("../res/Game start Loading page.png");
     if (newPageSurface == nullptr)
     {
         printf("Unable to load new page image! SDL_Error: %s\n", SDL_GetError());
@@ -19,7 +20,7 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
         return;
     }
 
-    SDL_Texture *texture = IMG_LoadTexture(renderer, "../res/setting_background.png");
+    SDL_Texture *texture = IMG_LoadTexture(renderer, "../res/Game start Loading page.png");
     SDL_Event menuEvent;
 
     SDL_Event e;
@@ -191,10 +192,7 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
 //         }
 //         else if (menuEvent.type == SDL_MOUSEMOTION)
 //         {
-//             int mouseX, mouseY;
-//             SDL_GetMouseState(&mouseX, &mouseY);
-//             if (mouseX >= startButtonRect.x && mouseX <= (startButtonRect.x + startButtonRect.w) &&
-//                 mouseY >= startButtonRect.y && mouseY <= (startButtonRect.y + startButtonRect.h))
+//             int mouseX, mouseY;nowosoj641@aseall.comRect.y && mouseY <= (startButtonRect.y + startButtonRect.h))
 //             {
 //                 SDL_SetTextureColorMod(startButtonTexture, 255, 255, 255);
 //             }

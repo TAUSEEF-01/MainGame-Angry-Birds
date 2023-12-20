@@ -1,5 +1,6 @@
 #include "main.h"
 
+// This is the second page where Play Button is added.
 
 void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
@@ -19,7 +20,8 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
         return;
     }
 
-    SDL_Surface *playButtonSurface = IMG_Load("../res/play_button2.png");
+    // SDL_Surface *playButtonSurface = IMG_Load("../res/play_button2.png");
+    SDL_Surface *playButtonSurface = IMG_Load("../res/start3.png");
     if (playButtonSurface == nullptr)
     {
         printf("Unable to load play button image! SDL_Error: %s\n", SDL_GetError());
@@ -38,7 +40,8 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     SDL_SetTextureColorMod(playButtonTexture, 150, 150, 150);
     SDL_Rect playButtonRect = {PLAY_BUTTON_POS_X + 50, PLAY_BUTTON_POS_Y + 100, 250, 60};
 
-    SDL_Surface *optionButtonSurface = IMG_Load("../res/option_button.png");
+    // SDL_Surface *optionButtonSurface = IMG_Load("../res/option_button.png");
+    SDL_Surface *optionButtonSurface = IMG_Load("../res/exit2.png");
     if (optionButtonSurface == nullptr)
     {
         printf("Unable to load option button image! SDL_Error: %s\n", SDL_GetError());
@@ -89,7 +92,25 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     }
 
 
+    // if (TTF_Init() == -1)
+    // {
+    //     printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+    //     return;
+    // }
+
+    // // Load a font
+    // TTF_Font* font = TTF_OpenFont("arial.ttf", 28);
+    // if (font == nullptr) {
+    //     printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
+    //     return;
+    // }
+
+    // std::string playerName;
+
+
     SDL_Event newPageEvent;
+    // State currentState = NAME_INPUT;  // Start with the name input screen
+
     while (SDL_PollEvent(&newPageEvent) != 0)
     {
         if (newPageEvent.type == SDL_QUIT)
@@ -106,7 +127,8 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
             {
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
                 SDL_Delay(100);          
-                currentState = PLAY_WINDOW;
+                // currentState = LEVEL1_LOADING_PAGE;
+                currentState = NAME_INPUT;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }
@@ -114,11 +136,12 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
             if (mouseX >= optionButtonRect.x && mouseX <= (optionButtonRect.x + optionButtonRect.w) &&
                 mouseY >= optionButtonRect.y && mouseY <= (optionButtonRect.y + optionButtonRect.h))
             {
-                printf("Setting button clicked!\n"); // make sure kortesi j setting button kaj kore kina
+                printf("Exit button clicked!\n"); // make sure kortesi j setting button kaj kore kina
 
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely          
                 SDL_Delay(100);          
-                currentState = SETTING;
+                // currentState = SETTING;
+                currentState = EXIT_PAGE;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
             }
@@ -150,6 +173,18 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
         SDL_SetTextureColorMod(optionButtonTexture, 150, 150, 150);
     }
 
+    // /**/
+    // // Render player name input
+    // TTF_Font *font = TTF_OpenFont("arial.ttf", 28);
+    // SDL_Color textColor = {255, 255, 255};
+    // SDL_Surface *playerNameSurface = TTF_RenderText_Solid(font, playerName.c_str(), textColor);
+    // SDL_Texture *playerNameTexture = SDL_CreateTextureFromSurface(renderer, playerNameSurface);
+    // SDL_FreeSurface(playerNameSurface);
+    // SDL_Rect playerNameRect = {SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 20, 200, 40};
+    // SDL_RenderCopy(renderer, playerNameTexture, NULL, &playerNameRect);
+    // /**/
+
+
     SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButtonRect);
 
     SDL_RenderCopy(renderer, optionButtonTexture, NULL, &optionButtonRect);
@@ -160,5 +195,8 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
     SDL_DestroyTexture(playButtonTexture);
     SDL_DestroyTexture(optionButtonTexture);
     SDL_DestroyTexture(backgroundPlayTexture);
-
+    
+    // /**/
+    // SDL_DestroyTexture(playerNameTexture);
+    // TTF_CloseFont(font);
 }
