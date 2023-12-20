@@ -33,31 +33,32 @@ void exit_page(SDL_Renderer *renderer, bool &quit, State &currentState)
         {
             quit = true;
         }
-        else if (menuEvent.type == SDL_MOUSEMOTION)
-        {
-            int mouseX, mouseY;
-            SDL_GetMouseState(&mouseX, &mouseY);
-            if (mouseX >= yesButtonRect.x && mouseX <= (yesButtonRect.x + yesButtonRect.w) &&
-                mouseY >= yesButtonRect.y && mouseY <= (yesButtonRect.y + yesButtonRect.h))
-            {
-                SDL_SetTextureColorMod(yes_button, 255, 255, 255);
-            }
-            else
-            {
-                SDL_SetTextureColorMod(yes_button, 150, 150, 150);
-            }
+        // else if (menuEvent.type == SDL_MOUSEMOTION)
+        // {
+        //     int mouseX, mouseY;
+        //     SDL_GetMouseState(&mouseX, &mouseY);
+        //     if (mouseX >= yesButtonRect.x && mouseX <= (yesButtonRect.x + yesButtonRect.w) &&
+        //         mouseY >= yesButtonRect.y && mouseY <= (yesButtonRect.y + yesButtonRect.h))
+        //     {
+        //         SDL_SetTextureColorMod(yes_button, 255, 255, 255);
+        //     }
+        //     else
+        //     {
+        //         SDL_SetTextureColorMod(yes_button, 150, 150, 150);
+        //     }
 
-            if (mouseX >= noButtonRect.x && mouseX <= (noButtonRect.x + noButtonRect.w) &&
-                mouseY >= noButtonRect.y && mouseY <= (noButtonRect.y + noButtonRect.h))
-            {
-                SDL_SetTextureColorMod(no_button, 255, 255, 255);
-            }
-            else
-            {
-                SDL_SetTextureColorMod(no_button, 150, 150, 150);
-            }
-        }
-        else if (menuEvent.type == SDL_MOUSEBUTTONDOWN)
+        //     if (mouseX >= noButtonRect.x && mouseX <= (noButtonRect.x + noButtonRect.w) &&
+        //         mouseY >= noButtonRect.y && mouseY <= (noButtonRect.y + noButtonRect.h))
+        //     {
+        //         SDL_SetTextureColorMod(no_button, 255, 255, 255);
+        //     }
+        //     else
+        //     {
+        //         SDL_SetTextureColorMod(no_button, 150, 150, 150);
+        //     }
+        // }
+        // else 
+        if (menuEvent.type == SDL_MOUSEBUTTONDOWN)
         {
             int mouseX, mouseY;
             SDL_GetMouseState(&mouseX, &mouseY);
