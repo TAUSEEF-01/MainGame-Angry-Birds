@@ -2,7 +2,7 @@
 
 // This is the second page where Play Button is added.
 
-void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState)
+void Handle_Menu(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
     SDL_Surface *newPageSurface = IMG_Load("../res/new_page2.png");
     if (newPageSurface == nullptr)

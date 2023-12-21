@@ -78,7 +78,7 @@ void exit_page(SDL_Renderer *renderer, bool &quit, State &currentState)
                 Mix_PlayMusic(backgroundMusic, -1); // Start playing music indefinitely
                 SDL_Delay(100);
 
-                currentState = NEW_PAGE;
+                currentState = MENU;
                 Mix_FreeMusic(backgroundMusic);
                 Mix_CloseAudio();
                 return;

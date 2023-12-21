@@ -2,28 +2,21 @@
 
 // This is the first page. Loading screen.
 
-void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
+void Loading_Screen(SDL_Renderer *renderer, bool &quit, State &currentState)
 {
-    SDL_Surface *newPageSurface = IMG_Load("../res/Game start Loading page.png");
-    if (newPageSurface == nullptr)
-    {
-        printf("Unable to load new page image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
+    // SDL_Surface *newPageSurface = IMG_Load("../res/Game start Loading page.png");
+    
 
-    SDL_Texture *newPageTexture = SDL_CreateTextureFromSurface(renderer, newPageSurface);
-    SDL_FreeSurface(newPageSurface);
-
-    if (newPageTexture == nullptr)
-    {
-        printf("Unable to create texture from new page image! SDL_Error: %s\n", SDL_GetError());
-        return;
-    }
+    // SDL_Texture *newPageTexture = IMG_LoadTexture(renderer, "../res/Game start Loading page.png");
+    // if (newPageTexture == nullptr)
+    // {
+    //     printf("Unable to load new page texture! SDL_Error: %s\n", SDL_GetError());
+    //     return;
+    // }
 
     SDL_Texture *texture = IMG_LoadTexture(renderer, "../res/Game start Loading page.png");
     SDL_Event menuEvent;
-
-    SDL_Event e;
+    
     bool wait = 1;
 
     SDL_Rect border = {50, 850, 1500, 20};
@@ -32,9 +25,9 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
 
     while (!quit)
     {
-        while (SDL_PollEvent(&e) != 0)
+        while (SDL_PollEvent(&menuEvent)    )
         {
-            if (e.type == SDL_QUIT)
+            if (menuEvent.type == SDL_QUIT)
             {
                 quit = true;
             }
@@ -63,7 +56,7 @@ void handleMenu(SDL_Renderer *renderer, bool &quit, State &currentState)
             inside.w++;
         else
         {
-            currentState = NEW_PAGE;
+            currentState = MENU;
             SDL_Delay(1000);
             return;
         }

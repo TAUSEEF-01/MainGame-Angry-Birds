@@ -48,17 +48,17 @@ int main(int argc, char *argv[])
 
     
     bool quit = false;
-    State currentState = MENU;
+    State currentState = NEW_PAGE;
 
     while (!quit)
     {
-        if (currentState == MENU)
+        if (currentState == NEW_PAGE)
         {
-            handleMenu(renderer, quit, currentState);
+            Loading_Screen(renderer, quit, currentState);
         }
-        else if (currentState == NEW_PAGE)
+        else if (currentState == MENU)
         {
-            handleNewPage(renderer, quit, currentState);
+            Handle_Menu(renderer, quit, currentState);
         }
         else if (currentState == SETTING) 
         {

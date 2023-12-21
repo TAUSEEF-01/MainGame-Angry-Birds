@@ -209,7 +209,7 @@ void level3(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicP
                     Mix_CloseAudio();
                     SDL_Delay(100);
 
-                    currentState = NEW_PAGE;
+                    currentState = MENU;
                     Mix_FreeMusic(backButtonMusic);
                     Mix_CloseAudio();
 
