@@ -11,6 +11,9 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState, Stat
         return;
     }
 
+
+
+
     SDL_Texture *newPageTexture = SDL_CreateTextureFromSurface(renderer, newPageSurface);
     SDL_FreeSurface(newPageSurface);
 
@@ -20,7 +23,6 @@ void handleNewPage(SDL_Renderer *renderer, bool &quit, State &currentState, Stat
         return;
     }
 
-    // SDL_Surface *playButtonSurface = IMG_Load("../res/play_button2.png");
     SDL_Surface *playButtonSurface = IMG_Load("../res/start3.png");
     if (playButtonSurface == nullptr)
     {
