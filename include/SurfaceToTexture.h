@@ -1,5 +1,5 @@
-#ifndef SURFACE_TO_TEXTURE
-#define SURFACE_TO_TEXTURE
+#ifndef MUSIC_TO_TEXTURE
+#define MUSIC_TO_TEXTURE
 
 #include "header.h"
 

@@ -3,6 +3,8 @@
 
 #include "header.h"
 
-void handlePlayWindow(SDL_Renderer* renderer, SDL_Texture* backgroundTexture, bool& quit);
+// void handlePlayWindow(SDL_Renderer* renderer, bool& quit, State &currentState);
+// void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying);
+void handlePlayWindow(SDL_Renderer *renderer, bool &quit, State &currentState, int &musicPlaying, std::string &playerName, int &playerScore, int &turns);
 
 #endif
